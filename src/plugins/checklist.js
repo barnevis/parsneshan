@@ -55,6 +55,8 @@ function checklist_plugin(md) {
         const isChecked = token.content.startsWith('[x] ') || token.content.startsWith('[X] ');
         token.content = token.content.substring(4);
 
+        // استخراج متن برای aria-label
+        let labelText = token.content.trim();
         if (token.children && token.children.length > 0) {
             for (let i = 0; i < token.children.length; i++) {
                 if (token.children[i].type === 'text') {
@@ -63,13 +65,17 @@ function checklist_plugin(md) {
                         token.children[i].content.startsWith('[X] ')) {
                         token.children[i].content = token.children[i].content.substring(4);
                     }
+                    labelText = token.children[i].content.trim();
                     break;
                 }
             }
         }
 
+        // ایجاد چک‌باکس با ویژگی‌های دسترسی‌پذیری
         const checkbox = new Token('html_inline', '', 0);
-        checkbox.content = `<input type="checkbox" class="task-list-item-checkbox" disabled ${isChecked ? 'checked' : ''}> `;
+        const statusText = isChecked ? 'انجام‌شده' : 'انجام‌نشده';
+        const ariaLabel = `${labelText} - ${statusText}`;
+        checkbox.content = `<input type="checkbox" class="task-list-item-checkbox" role="checkbox" aria-checked="${isChecked}" aria-label="${escapeAttr(ariaLabel)}" disabled ${isChecked ? 'checked' : ''}> `;
 
         const spanOpen = new Token('html_inline', '', 0);
         spanOpen.content = '<span>';
@@ -80,6 +86,20 @@ function checklist_plugin(md) {
         token.children.unshift(checkbox);
         token.children.splice(1, 0, spanOpen);
         token.children.push(spanClose);
+    }
+
+    /**
+     * تابع کمکی برای escape کردن ویژگی‌های HTML
+     * @param {string} str - رشته ورودی
+     * @returns {string} رشته escape شده
+     */
+    function escapeAttr(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
     }
 }
 

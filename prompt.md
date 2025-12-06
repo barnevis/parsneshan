@@ -139,3 +139,6 @@ Uncaught TypeError: window.markdownit is not a function
 
 ## پرامپت ۲۵
 مشکل عملکردی تابع `detectDirection` را بر طرف کن.
+
+## پرامپت ۲۶
+مشکل دسترسی‌پذیری در بازبینه‌ها (`aria-label`) را بر طرف کن.
