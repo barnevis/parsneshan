@@ -1,20 +1,56 @@
 /**
- * پلاگین تشخیص خودکار جهت متن
- * @param {Object} md - نمونه markdown-it
+ * @fileoverview افزونه تشخیص خودکار جهت متن برای پارس‌نشان
+ * @description این افزونه جهت متن (راست‌به‌چپ یا چپ‌به‌راست) را بر اساس محتوا تشخیص می‌دهد
+ * @author پارس‌نشان
+ * @license MIT
  */
-function auto_direction_plugin(md) {
-    function detectDirection(text) {
-        const rtlRegex = /[\u0600-\u06FF]/;
-        const ltrRegex = /[a-zA-Z]/;
-        for (let i = 0; i < text.length; i++) {
-            const char = text[i];
-            if (rtlRegex.test(char)) return 'rtl';
-            if (ltrRegex.test(char)) return 'ltr';
-        }
-        return 'rtl';
+
+/**
+ * تشخیص جهت متن
+ * 
+ * @param {string} text - متن ورودی
+ * @returns {'rtl'|'ltr'} جهت متن
+ * 
+ * @example
+ * detectDirection('سلام') // 'rtl'
+ * detectDirection('Hello') // 'ltr'
+ */
+function detectDirection(text) {
+    const rtlRegex = /[\u0600-\u06FF]/;
+    const ltrRegex = /[a-zA-Z]/;
+
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (rtlRegex.test(char)) return 'rtl';
+        if (ltrRegex.test(char)) return 'ltr';
     }
 
-    // لیستی از تگ‌های بلوکی که می‌خواهیم جهت‌شان را تنظیم کنیم
+    return 'rtl'; // پیش‌فرض برای زبان فارسی
+}
+
+/**
+ * افزونه تشخیص خودکار جهت
+ * 
+ * این افزونه بر اساس اولین نویسه معنادار هر بلوک، جهت متن را تشخیص داده
+ * و ویژگی dir را به تگ‌های HTML اضافه می‌کند
+ * 
+ * @example
+ * // ورودی:
+ * // ## سلام
+ * // Hello World
+ * //
+ * // خروجی:
+ * // <h2 dir="rtl">سلام</h2>
+ * // <p dir="ltr">Hello World</p>
+ * 
+ * @param {import('markdown-it')} md - نمونه markdown-it
+ * @returns {void}
+ */
+function auto_direction_plugin(md) {
+    /**
+     * لیست تگ‌های بلوکی که جهت‌شان تنظیم می‌شود
+     * @type {string[]}
+     */
     const blockRules = [
         'paragraph_open',
         'heading_open',
@@ -32,7 +68,6 @@ function auto_direction_plugin(md) {
             const token = tokens[idx];
             let content = '';
 
-            // منطق پیدا کردن محتوا برای هر نوع تگ
             if (ruleName === 'table_open') {
                 for (let j = idx + 1; j < tokens.length; j++) {
                     if (tokens[j].type === 'table_close') break;

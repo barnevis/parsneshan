@@ -1,6 +1,24 @@
 /**
- * پلاگین بازبینه‌ها (task lists)
- * @param {Object} md - نمونه markdown-it
+ * @fileoverview افزونه بازبینه‌ها (چک‌لیست) برای پارس‌نشان
+ * @description این افزونه امکان ایجاد لیست‌های کار با چک‌باکس را فراهم می‌کند
+ * @author پارس‌نشان
+ * @license MIT
+ */
+
+/**
+ * افزونه بازبینه‌ها (Task Lists)
+ * 
+ * این افزونه آیتم‌های لیست با فرمت [ ] یا [x] را به چک‌باکس تبدیل می‌کند
+ * 
+ * @example
+ * // ورودی مارک‌داون:
+ * // - [x] کار انجام‌شده
+ * // - [ ] کار باقی‌مانده
+ * //
+ * // خروجی HTML شامل چک‌باکس‌های HTML می‌شود
+ * 
+ * @param {import('markdown-it')} md - نمونه markdown-it
+ * @returns {void}
  */
 function checklist_plugin(md) {
     md.core.ruler.after('inline', 'github-task-lists', function (state) {
@@ -13,6 +31,12 @@ function checklist_plugin(md) {
         }
     });
 
+    /**
+     * بررسی اینکه آیا یک توکن آیتم بازبینه است یا خیر
+     * @param {Array} tokens - آرایه توکن‌ها
+     * @param {number} idx - اندیس توکن فعلی
+     * @returns {boolean} آیا آیتم بازبینه است
+     */
     function isTodoItem(tokens, idx) {
         return tokens[idx].type === 'inline' &&
             tokens[idx - 1].type === 'paragraph_open' &&
@@ -22,13 +46,15 @@ function checklist_plugin(md) {
                 tokens[idx].content.startsWith('[X] '));
     }
 
+    /**
+     * تبدیل توکن به چک‌باکس
+     * @param {Object} token - توکن آیتم لیست
+     * @param {Function} Token - سازنده توکن
+     */
     function todoify(token, Token) {
         const isChecked = token.content.startsWith('[x] ') || token.content.startsWith('[X] ');
-
-        // حذف '[ ] ' یا '[x] ' از محتوای اصلی
         token.content = token.content.substring(4);
 
-        // اگر توکن‌های فرزند وجود دارند، باید اولین توکن text را هم اصلاح کنیم
         if (token.children && token.children.length > 0) {
             for (let i = 0; i < token.children.length; i++) {
                 if (token.children[i].type === 'text') {
@@ -42,21 +68,16 @@ function checklist_plugin(md) {
             }
         }
 
-        // ایجاد چک‌باکس
         const checkbox = new Token('html_inline', '', 0);
         checkbox.content = `<input type="checkbox" class="task-list-item-checkbox" disabled ${isChecked ? 'checked' : ''}> `;
 
-        // ایجاد span برای احاطه کردن متن
         const spanOpen = new Token('html_inline', '', 0);
         spanOpen.content = '<span>';
 
         const spanClose = new Token('html_inline', '', 0);
         spanClose.content = '</span>';
 
-        // اضافه کردن چک‌باکس به ابتدا
         token.children.unshift(checkbox);
-
-        // احاطه کردن بقیه محتوا با span
         token.children.splice(1, 0, spanOpen);
         token.children.push(spanClose);
     }

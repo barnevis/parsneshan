@@ -1,7 +1,11 @@
 /**
- * پارس‌نشان - مفسر مارک‌داون فارسی
- * نقطه ورودی اصلی برای Node.js
+ * @fileoverview پارس‌نشان - مفسر مارک‌داون فارسی
+ * @description کتابخانه‌ای برای تبدیل مارک‌داون به HTML با پشتیبانی کامل از زبان فارسی
+ * @author پارس‌نشان
+ * @license MIT
+ * @version 1.1.0
  */
+
 const highlight_plugin = require('./plugins/highlight');
 const admonition_plugin = require('./plugins/admonition');
 const checklist_plugin = require('./plugins/checklist');
@@ -10,10 +14,35 @@ const poetry_plugin = require('./plugins/poetry');
 const auto_direction_plugin = require('./plugins/auto-direction');
 
 /**
+ * تنظیمات ایجاد پارس‌نشان
+ * @typedef {Object} ParsNeshanOptions
+ * @property {Array} [plugins=[]] - لیست افزونه‌های اضافی markdown-it
+ * @property {boolean} [html=true] - اجازه HTML خام در ورودی
+ * @property {boolean} [linkify=false] - تبدیل خودکار لینک‌ها
+ * @property {boolean} [typographer=false] - جایگزینی نویسه‌های تایپوگرافی
+ */
+
+/**
  * ایجاد یک نمونه از مفسر پارس‌نشان
- * @param {Object} options - تنظیمات اختیاری
- * @param {Array} options.plugins - لیست پلاگین‌های اضافی
- * @returns {Object} نمونه markdown-it با پلاگین‌های پارس‌نشان
+ * 
+ * این تابع یک نمونه markdown-it با تمام افزونه‌های پارس‌نشان از پیش فعال‌شده
+ * برمی‌گرداند. می‌توانید افزونه‌های اضافی نیز به آن اضافه کنید.
+ * 
+ * @param {ParsNeshanOptions} [options={}] - تنظیمات اختیاری
+ * @returns {import('markdown-it')} نمونه markdown-it با افزونه‌های پارس‌نشان
+ * @throws {Error} اگر markdown-it نصب نباشد
+ * 
+ * @example
+ * // استفاده ساده
+ * const createParsNeshan = require('parsneshan');
+ * const parsneshan = createParsNeshan();
+ * const html = parsneshan.render('## سلام دنیا!');
+ * 
+ * @example
+ * // با افزونه‌های اضافی
+ * const parsneshan = createParsNeshan({
+ *   plugins: [require('markdown-it-emoji')]
+ * });
  */
 function createParsNeshan(options = {}) {
     const { plugins = [], ...mdOptions } = options;
@@ -26,13 +55,13 @@ function createParsNeshan(options = {}) {
         throw new Error('پارس‌نشان: کتابخانه markdown-it یافت نشد. لطفاً ابتدا آن را نصب کنید: npm install markdown-it');
     }
 
-    // ایجاد نمونه markdown-it
+    // ایجاد نمونه markdown-it با تنظیمات پیش‌فرض
     const md = markdownit({
         html: true,
         ...mdOptions
     });
 
-    // اعمال پلاگین‌های پارس‌نشان
+    // اعمال افزونه‌های پارس‌نشان
     md.use(highlight_plugin);
     md.use(admonition_plugin);
     md.use(checklist_plugin);
@@ -40,11 +69,13 @@ function createParsNeshan(options = {}) {
     md.use(poetry_plugin);
     md.use(auto_direction_plugin);
 
-    // اعمال پلاگین‌های کاربر
+    // اعمال افزونه‌های کاربر
     plugins.forEach(pluginConfig => {
         if (Array.isArray(pluginConfig)) {
+            // اگر افزونه به همراه تنظیمات بود: [plugin, { options }]
             md.use(...pluginConfig);
         } else {
+            // اگر فقط خود افزونه بود
             md.use(pluginConfig);
         }
     });
@@ -52,10 +83,26 @@ function createParsNeshan(options = {}) {
     return md;
 }
 
-// صادر کردن تابع اصلی و پلاگین‌ها
-module.exports = createParsNeshan;
-module.exports.createParsNeshan = createParsNeshan;
-module.exports.plugins = {
+/**
+ * افزونه‌های پارس‌نشان برای استفاده جداگانه
+ * @type {Object}
+ * @property {Function} highlight - افزونه برجسته‌سازی متن
+ * @property {Function} admonition - افزونه جعبه‌های توضیحی
+ * @property {Function} checklist - افزونه بازبینه‌ها
+ * @property {Function} persianList - افزونه لیست با اعداد فارسی
+ * @property {Function} poetry - افزونه نمایش شعر
+ * @property {Function} autoDirection - افزونه تشخیص خودکار جهت
+ * 
+ * @example
+ * // استفاده از یک افزونه به تنهایی
+ * const markdownit = require('markdown-it');
+ * const { plugins } = require('parsneshan');
+ * 
+ * const md = markdownit();
+ * md.use(plugins.highlight);
+ * md.use(plugins.poetry);
+ */
+const plugins = {
     highlight: highlight_plugin,
     admonition: admonition_plugin,
     checklist: checklist_plugin,
@@ -63,3 +110,10 @@ module.exports.plugins = {
     poetry: poetry_plugin,
     autoDirection: auto_direction_plugin
 };
+
+// صادرات اصلی
+module.exports = createParsNeshan;
+
+// صادرات نام‌دار
+module.exports.createParsNeshan = createParsNeshan;
+module.exports.plugins = plugins;
