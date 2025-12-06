@@ -133,3 +133,6 @@ Uncaught TypeError: window.markdownit is not a function
 
 ## پرامپت ۲۳
 حالا مشکل «عدم مدیریت خطا» را بر طرف کن.
+
+## پرامپت ۲۴
+فایل package.json پروژه را بساز.

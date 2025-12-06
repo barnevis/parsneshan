@@ -1,0 +1,48 @@
+{
+    "name": "parsneshan",
+    "version": "1.1.0",
+    "description": "مفسر مارک‌داون فارسی بر پایه markdown-it با پشتیبانی از محتوای دوجهته، شعر، جعبه‌های توضیحی و اعداد فارسی",
+    "main": "src/index.js",
+    "browser": "parsneshan.js",
+    "files": [
+        "src/",
+        "parsneshan.js",
+        "parsneshan.css"
+    ],
+    "scripts": {
+        "test": "node test.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/barnevis/parsneshan.git"
+    },
+    "keywords": [
+        "markdown",
+        "markdown-it",
+        "persian",
+        "farsi",
+        "rtl",
+        "parser",
+        "poetry",
+        "admonition",
+        "checklist",
+        "پارسی",
+        "فارسی",
+        "مارک‌داون"
+    ],
+    "author": "Barnevis",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/barnevis/parsneshan/issues"
+    },
+    "homepage": "https://barnevis.github.io/parsneshan/",
+    "peerDependencies": {
+        "markdown-it": ">=12.0.0"
+    },
+    "devDependencies": {
+        "markdown-it": "^14.1.0"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    }
+}
