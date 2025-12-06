@@ -55,9 +55,9 @@ function createParsNeshan(options = {}) {
         throw new Error('پارس‌نشان: کتابخانه markdown-it یافت نشد. لطفاً ابتدا آن را نصب کنید: npm install markdown-it');
     }
 
-    // ایجاد نمونه markdown-it با تنظیمات پیش‌فرض
+    // ایجاد نمونه markdown-it با تنظیمات پیش‌فرض امن
     const md = markdownit({
-        html: true,
+        html: false, // غیرفعال به صورت پیش‌فرض برای جلوگیری از XSS
         ...mdOptions
     });
 

@@ -153,3 +153,6 @@ Uncaught TypeError: window.markdownit is not a function
   /* ... */
 }
 ```
+
+## پرامپت ۲۸
+برای رفع مشکل «فعال بودن HTML خام ممکن است خطر XSS ایجاد کند.» چه پیشنهادی داری؟
