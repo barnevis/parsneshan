@@ -104,7 +104,7 @@
 
 شما می‌توانید کتابخانه «پارس‌نشان» را به صورت زنده در لینک زیر امتحان کنید:
 
-**[مشاهده دموی زنده](https://alirho.github.io/parsneshan/)**
+**[مشاهده دموی زنده](https://barnevis.github.io/parsneshan/)**
 
 ## نصب و استفاده
 
@@ -144,6 +144,22 @@
   const htmlResult = parsneshan.render("پارس‌نشان عالیه! :tada:");
   console.log(htmlResult);
 </script>
+```
+
+### استفاده در Node.js
+
+«پارس‌نشان» از محیط Node.js نیز پشتیبانی می‌کند:
+
+```bash
+npm install markdown-it
+```
+
+```javascript
+const createParsNeshan = require('./parsneshan.js');
+
+const parsneshan = createParsNeshan();
+const htmlResult = parsneshan.render("## سلام دنیا!");
+console.log(htmlResult);
 ```
 
 ## مجوز
