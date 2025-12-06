@@ -121,3 +121,6 @@ Uncaught TypeError: window.markdownit is not a function
 
 ## پرامپت ۱۹
 کدهای تکراری استایل را هم در فایل `index.html` پاک کن. البته اگر در نمایش صفحه مشکلی ایجاد نمی‌کنه.
+
+## پرامپت ۲۰
+خب حالا مشکل «کد admonition ناقص» را برطرف کن.

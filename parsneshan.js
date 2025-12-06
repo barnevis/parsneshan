@@ -95,7 +95,6 @@
       // ۲. پیدا کردن خط پایان
       let nextLine = startLine;
       let foundEnd = false;
-      let content = '';
 
       while (nextLine < endLine) {
         nextLine++;
@@ -111,8 +110,6 @@
           foundEnd = true;
           break;
         }
-        // محتوای بین خطوط را جمع‌آوری می‌کنیم
-        content += state.src.slice(state.bMarks[nextLine - 1], state.eMarks[nextLine - 1]) + '\n';
       }
 
       if (!foundEnd) {
