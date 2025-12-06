@@ -142,3 +142,14 @@ Uncaught TypeError: window.markdownit is not a function
 
 ## پرامپت ۲۶
 مشکل دسترسی‌پذیری در بازبینه‌ها (`aria-label`) را بر طرف کن.
+
+## پرامپت ۲۷
+بهبود CSS که پیشنهاد دادی را انجام بده.
+```css
+/* استفاده از CSS Variables پیشنهاد می‌شود */
+:root {
+  --admonition-note-color: #58a6ff;
+  --admonition-tip-color: #3fb950;
+  /* ... */
+}
+```

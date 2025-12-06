@@ -1,7 +1,66 @@
+/**
+ * پارس‌نشان - استایل‌های CSS
+ * نسخه: ۱.۱.۰
+ * 
+ * این فایل شامل تمام استایل‌های مورد نیاز برای نمایش خروجی پارس‌نشان است.
+ * از CSS Variables برای سفارشی‌سازی آسان استفاده شده است.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   متغیرهای CSS - برای سفارشی‌سازی این مقادیر را تغییر دهید
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* رنگ‌های اصلی */
+  --parsneshan-text-color: #333;
+  --parsneshan-bg-color: #f0f2f5;
+  --parsneshan-card-bg: #fff;
+  --parsneshan-border-color: #ddd;
+  --parsneshan-border-radius: 8px;
+
+  /* فونت‌ها */
+  --parsneshan-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Vazirmatn", Roboto, sans-serif;
+  --parsneshan-font-size: 16px;
+  --parsneshan-line-height: 1.6;
+  --parsneshan-code-font: 'Consolas', 'Monaco', 'Courier New', monospace;
+
+  /* رنگ‌های جعبه‌های توضیحی */
+  --admonition-note-color: #58a6ff;
+  --admonition-tip-color: #3fb950;
+  --admonition-warning-color: #d29922;
+  --admonition-important-color: #a371f7;
+  --admonition-caution-color: #f85149;
+  --admonition-bg-color: #f8f9fa;
+
+  /* رنگ‌های لینک */
+  --link-color: #0066cc;
+  --link-hover-color: #004499;
+
+  /* رنگ‌های کد */
+  --code-bg-color: #f4f4f4;
+  --code-text-color: #c7254e;
+  --code-block-bg: #f8f8f8;
+  --code-block-border: #e1e1e1;
+
+  /* رنگ‌های جدول */
+  --table-border-color: #ddd;
+  --table-header-bg: #f5f5f5;
+  --table-row-even-bg: #f9f9f9;
+
+  /* رنگ‌های بازبینه */
+  --checklist-checked-color: #888;
+
+  /* شعر */
+  --poetry-max-width: 800px;
+  --poetry-font-family: 'Vazirmatn', 'Tahoma', serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   استایل‌های پایه صفحه دمو
+   ═══════════════════════════════════════════════════════════════════════════ */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Vazirmatn", Roboto, sans-serif;
-  background-color: #f0f2f5;
-  color: #333;
+  font-family: var(--parsneshan-font-family);
+  background-color: var(--parsneshan-bg-color);
+  color: var(--parsneshan-text-color);
   margin: 0;
   padding: 20px;
 }
@@ -14,8 +73,8 @@ body {
 
 .container>div {
   flex: 1;
-  background-color: #fff;
-  border-radius: 8px;
+  background-color: var(--parsneshan-card-bg);
+  border-radius: var(--parsneshan-border-radius);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 15px;
   overflow: auto;
@@ -26,8 +85,8 @@ textarea {
   height: 100%;
   border: none;
   resize: none;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: var(--parsneshan-font-size);
+  line-height: var(--parsneshan-line-height);
   box-sizing: border-box;
 }
 
@@ -36,23 +95,25 @@ textarea:focus {
 }
 
 #output {
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: var(--parsneshan-font-size);
+  line-height: var(--parsneshan-line-height);
 }
 
 #output h2 {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--parsneshan-border-color);
   padding-bottom: 5px;
 }
 
-/* استایل‌های جعبه‌های توضیحی */
+/* ═══════════════════════════════════════════════════════════════════════════
+   جعبه‌های توضیحی (Admonitions)
+   ═══════════════════════════════════════════════════════════════════════════ */
 .admonition {
   padding: 15px;
   margin: 1.5em 0;
-  border-right: 5px solid #ddd;
+  border-right: 5px solid var(--parsneshan-border-color);
   border-radius: 4px;
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: var(--admonition-bg-color);
+  color: var(--parsneshan-text-color);
 }
 
 .admonition-title {
@@ -61,51 +122,56 @@ textarea:focus {
   margin-bottom: 10px;
 }
 
-/* رنگ‌بندی‌های مختلف */
+/* توجه (Note) */
 .admonition.note {
-  border-color: #58a6ff;
+  border-color: var(--admonition-note-color);
 }
 
 .admonition.note .admonition-title {
-  color: #58a6ff;
+  color: var(--admonition-note-color);
 }
 
+/* نکته (Tip) */
 .admonition.tip {
-  border-color: #3fb950;
+  border-color: var(--admonition-tip-color);
 }
 
 .admonition.tip .admonition-title {
-  color: #3fb950;
+  color: var(--admonition-tip-color);
 }
 
+/* هشدار (Warning) */
 .admonition.warning {
-  border-color: #d29922;
+  border-color: var(--admonition-warning-color);
 }
 
 .admonition.warning .admonition-title {
-  color: #d29922;
+  color: var(--admonition-warning-color);
 }
 
+/* مهم (Important) */
 .admonition.important {
-  border-color: #a371f7;
+  border-color: var(--admonition-important-color);
 }
 
 .admonition.important .admonition-title {
-  color: #a371f7;
+  color: var(--admonition-important-color);
 }
 
+/* احتیاط (Caution) */
 .admonition.caution {
-  border-color: #f85149;
+  border-color: var(--admonition-caution-color);
 }
 
 .admonition.caution .admonition-title {
-  color: #f85149;
+  color: var(--admonition-caution-color);
 }
 
-/* استایل‌های بازبینه‌ها */
+/* ═══════════════════════════════════════════════════════════════════════════
+   بازبینه‌ها (Checklists)
+   ═══════════════════════════════════════════════════════════════════════════ */
 .task-list-item {
   list-style-type: none;
-/* حذف دایره پیش‌فرض لیست */
 }
 
 .task-list-item label {
@@ -115,44 +181,40 @@ textarea:focus {
 
 .task-list-item-checkbox {
   margin-left: 0.5em;
-/* فاصله چک‌باکس از متن */
 }
 
 .task-list-item input:checked+span {
   text-decoration: line-through;
-  color: #888;
+  color: var(--checklist-checked-color);
 }
 
-/* استایل‌های بهبود یافته برای نمایش شعر با تراز صحیح */
+/* ═══════════════════════════════════════════════════════════════════════════
+   شعر (Poetry)
+   ═══════════════════════════════════════════════════════════════════════════ */
 .poetry-container {
   margin: 2em auto;
   padding: 1em 0;
-  max-width: 800px;
-/* حداکثر عرض برای خوانایی بهتر */
+  max-width: var(--poetry-max-width);
 }
 
 .poetry-stanza {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* دو ستون با عرض مساوی */
   gap: 2em;
-  /* فاصله بین دو مصرع */
   margin-bottom: 1.2em;
   text-align: center;
-  /* متن هر مصرع در وسط ستون خودش */
 }
 
 .poetry-verse {
   margin: 0;
-  font-family: 'Vazirmatn', 'Tahoma', serif;
+  font-family: var(--poetry-font-family);
   font-size: 1.1em;
   line-height: 1.8;
-  color: #333;
+  color: var(--parsneshan-text-color);
   padding: 0 1em;
-  /* کمی padding برای فاصله از لبه‌ها */
 }
 
-/* برای موبایل: مصرع‌ها زیر هم قرار بگیرند */
+/* موبایل */
 @media (max-width: 600px) {
   .poetry-stanza {
     grid-template-columns: 1fr;
@@ -160,33 +222,35 @@ textarea:focus {
   }
 }
 
-/* استایل‌های پایه برای عناصر مارک‌داون */
+/* ═══════════════════════════════════════════════════════════════════════════
+   عناصر پایه مارک‌داون
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 /* نقل‌قول */
 blockquote {
   margin: 1em 0;
   padding: 0.5em 1em;
-  border-right: 4px solid #ddd;
-  background-color: #f9f9f9;
+  border-right: 4px solid var(--parsneshan-border-color);
+  background-color: var(--table-row-even-bg);
   color: #666;
   font-style: italic;
 }
 
 /* کد تک‌خطی */
 code {
-  background-color: #f4f4f4;
+  background-color: var(--code-bg-color);
   padding: 0.2em 0.4em;
   border-radius: 3px;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--parsneshan-code-font);
   font-size: 0.9em;
-  color: #c7254e;
+  color: var(--code-text-color);
   direction: ltr;
 }
 
-/* بلوک کد چندخطی */
+/* بلوک کد */
 pre {
-  background-color: #f8f8f8;
-  border: 1px solid #e1e1e1;
+  background-color: var(--code-block-bg);
+  border: 1px solid var(--code-block-border);
   border-radius: 4px;
   padding: 1em;
   overflow-x: auto;
@@ -196,23 +260,24 @@ pre {
 pre code {
   background-color: transparent;
   padding: 0;
-  color: #333;
+  color: var(--parsneshan-text-color);
 }
 
 /* لینک‌ها */
 a {
-  color: #0066cc;
+  color: var(--link-color);
   text-decoration: none;
 }
 
 a:hover {
+  color: var(--link-hover-color);
   text-decoration: underline;
 }
 
 /* خط افقی */
 hr {
   border: none;
-  border-top: 2px solid #e1e1e1;
+  border-top: 2px solid var(--code-block-border);
   margin: 2em 0;
 }
 
@@ -224,7 +289,9 @@ img {
   margin: 1em auto;
 }
 
-/* استایل‌های بهبودیافته برای لیست‌ها */
+/* ═══════════════════════════════════════════════════════════════════════════
+   لیست‌ها
+   ═══════════════════════════════════════════════════════════════════════════ */
 li[dir="ltr"] {
   direction: ltr;
   text-align: left;
@@ -235,7 +302,9 @@ li[dir="rtl"] {
   text-align: right;
 }
 
-/* استایل‌های بهبودیافته برای جداول */
+/* ═══════════════════════════════════════════════════════════════════════════
+   جداول
+   ═══════════════════════════════════════════════════════════════════════════ */
 table {
   border-collapse: collapse;
   width: 100%;
@@ -244,20 +313,19 @@ table {
 
 table th,
 table td {
-  border: 1px solid #ddd;
+  border: 1px solid var(--table-border-color);
   padding: 8px 12px;
 }
 
 table th {
-  background-color: #f5f5f5;
+  background-color: var(--table-header-bg);
   font-weight: bold;
 }
 
 table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: var(--table-row-even-bg);
 }
 
-/* تراز متن بر اساس dir خود جدول */
 table[dir="rtl"] th,
 table[dir="rtl"] td {
   text-align: right;
