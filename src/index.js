@@ -45,7 +45,7 @@ const auto_direction_plugin = require('./plugins/auto-direction');
  * });
  */
 function createParsNeshan(options = {}) {
-    const { plugins = [], ...mdOptions } = options;
+    const { plugins: userPlugins = [], ...mdOptions } = options;
 
     // بارگذاری markdown-it
     let markdownit;
@@ -61,24 +61,79 @@ function createParsNeshan(options = {}) {
         ...mdOptions
     });
 
-    // اعمال افزونه‌های پارس‌نشان
-    md.use(highlight_plugin);
-    md.use(admonition_plugin);
-    md.use(checklist_plugin);
-    md.use(persian_ordered_list_plugin);
-    md.use(poetry_plugin);
-    md.use(auto_direction_plugin);
+    /**
+     * لیست افزونه‌های داخلی پارس‌نشان
+     * @type {Array<{name: string, plugin: Function}>}
+     */
+    const internalPlugins = [
+        { name: 'برجسته‌سازی', plugin: highlight_plugin },
+        { name: 'جعبه‌های توضیحی', plugin: admonition_plugin },
+        { name: 'بازبینه‌ها', plugin: checklist_plugin },
+        { name: 'لیست فارسی', plugin: persian_ordered_list_plugin },
+        { name: 'شعر', plugin: poetry_plugin },
+        { name: 'تشخیص جهت', plugin: auto_direction_plugin }
+    ];
 
-    // اعمال افزونه‌های کاربر
-    plugins.forEach(pluginConfig => {
-        if (Array.isArray(pluginConfig)) {
-            // اگر افزونه به همراه تنظیمات بود: [plugin, { options }]
-            md.use(...pluginConfig);
-        } else {
-            // اگر فقط خود افزونه بود
-            md.use(pluginConfig);
+    // اعمال افزونه‌های پارس‌نشان با مدیریت خطا
+    internalPlugins.forEach(({ name, plugin }) => {
+        try {
+            md.use(plugin);
+        } catch (e) {
+            console.error(`پارس‌نشان: خطا در بارگذاری افزونه «${name}»:`, e.message);
         }
     });
+
+    // اعمال افزونه‌های کاربر با مدیریت خطا
+    userPlugins.forEach((pluginConfig, index) => {
+        try {
+            if (Array.isArray(pluginConfig)) {
+                md.use(...pluginConfig);
+            } else {
+                md.use(pluginConfig);
+            }
+        } catch (e) {
+            console.error(`پارس‌نشان: خطا در بارگذاری افزونه کاربر شماره ${index + 1}:`, e.message);
+        }
+    });
+
+    // ذخیره متد render اصلی
+    const originalRender = md.render.bind(md);
+
+    /**
+     * رندر مارک‌داون با مدیریت خطا
+     * @param {string} src - متن مارک‌داون
+     * @param {Object} [env={}] - محیط رندر
+     * @returns {string} خروجی HTML
+     */
+    md.render = function (src, env = {}) {
+        // بررسی ورودی
+        if (typeof src !== 'string') {
+            console.error('پارس‌نشان: ورودی باید رشته باشد. نوع دریافتی:', typeof src);
+            return '';
+        }
+
+        try {
+            return originalRender(src, env);
+        } catch (e) {
+            console.error('پارس‌نشان: خطا در رندر مارک‌داون:', e.message);
+            // بازگشت متن اصلی به صورت escape شده در صورت خطا
+            return `<pre>${escapeHtml(src)}</pre>`;
+        }
+    };
+
+    /**
+     * تابع کمکی برای escape کردن HTML
+     * @param {string} str - رشته ورودی
+     * @returns {string} رشته escape شده
+     */
+    function escapeHtml(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
 
     return md;
 }
