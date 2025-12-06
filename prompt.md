@@ -124,3 +124,6 @@ Uncaught TypeError: window.markdownit is not a function
 
 ## پرامپت ۲۰
 خب حالا مشکل «کد admonition ناقص» را برطرف کن.
+
+## پرامپت ۲۱
+خب حالا ازت می‌خوام پیشنهادی که برای تفکیک فایل‌ها دادی را انجام بدی.

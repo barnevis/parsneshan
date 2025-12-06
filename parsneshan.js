@@ -1,15 +1,17 @@
 /**
  * پارس‌نشان - مفسر مارک‌داون فارسی
- * نسخه: ۱.۰.۰
+ * نسخه: ۱.۱.۰
  * مجوز: MIT
+ * 
+ * این فایل bundle شده برای استفاده مستقیم در مرورگر است.
  */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD
     define(['markdown-it'], factory);
   } else if (typeof module === 'object' && module.exports) {
-    // Node.js/CommonJS
-    module.exports = factory(require('markdown-it'));
+    // Node.js/CommonJS - به src/index.js هدایت می‌شود
+    module.exports = require('./src/index.js');
   } else {
     // مرورگر (Global)
     root.createParsNeshan = factory(root.markdownit);
@@ -17,7 +19,9 @@
 }(typeof self !== 'undefined' ? self : this, function (markdownit) {
   'use strict';
 
-  // پلاگین سفارشی برای هایلایت کردن متن (==text==)
+  // ═══════════════════════════════════════════════════════════════════════════
+  // پلاگین هایلایت متن (==text==)
+  // ═══════════════════════════════════════════════════════════════════════════
   function highlight_plugin(md) {
     function highlight_rule(state, silent) {
       let start = state.pos;
@@ -49,58 +53,37 @@
     md.inline.ruler.before('emphasis', 'highlight', highlight_rule);
   }
 
-  // پلاگین سفارشی برای جعبه‌های توضیحی (admonitions)
+  // ═══════════════════════════════════════════════════════════════════════════
+  // پلاگین جعبه‌های توضیحی (admonitions)
+  // ═══════════════════════════════════════════════════════════════════════════
   function admonition_plugin(md) {
     const types = {
-      'هشدار': {
-        class: 'warning',
-        title: 'هشدار'
-      },
-      'توجه': {
-        class: 'note',
-        title: 'توجه'
-      },
-      'نکته': {
-        class: 'tip',
-        title: 'نکته'
-      },
-      'مهم': {
-        class: 'important',
-        title: 'مهم'
-      },
-      'احتیاط': {
-        class: 'caution',
-        title: 'احتیاط'
-      }
+      'هشدار': { class: 'warning', title: 'هشدار' },
+      'توجه': { class: 'note', title: 'توجه' },
+      'نکته': { class: 'tip', title: 'نکته' },
+      'مهم': { class: 'important', title: 'مهم' },
+      'احتیاط': { class: 'caution', title: 'احتیاط' }
     };
 
     function admonition_rule(state, startLine, endLine, silent) {
       const startMarker = '...';
       const endMarker = '...';
 
-      // ۱. بررسی خط شروع
       let pos = state.bMarks[startLine] + state.tShift[startLine];
       let max = state.eMarks[startLine];
       let firstLine = state.src.slice(pos, max);
 
-      if (!firstLine.startsWith(startMarker)) {
-        return false;
-      }
+      if (!firstLine.startsWith(startMarker)) return false;
 
       const keyword = firstLine.substring(startMarker.length).trim();
-      if (!types[keyword]) {
-        return false;
-      }
+      if (!types[keyword]) return false;
 
-      // ۲. پیدا کردن خط پایان
       let nextLine = startLine;
       let foundEnd = false;
 
       while (nextLine < endLine) {
         nextLine++;
-        if (nextLine >= endLine) {
-          break;
-        }
+        if (nextLine >= endLine) break;
 
         pos = state.bMarks[nextLine] + state.tShift[nextLine];
         max = state.eMarks[nextLine];
@@ -112,37 +95,25 @@
         }
       }
 
-      if (!foundEnd) {
-        return false;
-      }
+      if (!foundEnd) return false;
 
-      // ۳. ساختن توکن‌ها
       if (!silent) {
         const type = types[keyword];
         let token;
 
-        // باز کردن تگ div
         token = state.push('admonition_open', 'div', 1);
-        token.attrs = [
-          ['class', `admonition ${type.class}`]
-        ];
+        token.attrs = [['class', `admonition ${type.class}`]];
         token.block = true;
 
-        // افزودن عنوان
         token = state.push('admonition_title_open', 'p', 1);
-        token.attrs = [
-          ['class', 'admonition-title']
-        ];
+        token.attrs = [['class', 'admonition-title']];
         token = state.push('text', '', 0);
         token.content = type.title;
         token = state.push('admonition_title_close', 'p', -1);
 
-        // رندر کردن محتوای داخل جعبه
-        // ما محتوای داخل جعبه را به خود markdown-it می‌دهیم تا آن را پردازش کند
         const contentToRender = state.src.slice(state.bMarks[startLine + 1], state.bMarks[nextLine]);
         state.md.block.parse(contentToRender, state.md, state.env, state.tokens);
 
-        // بستن تگ div
         token = state.push('admonition_close', 'div', -1);
       }
 
@@ -153,7 +124,9 @@
     md.block.ruler.before('fence', 'admonition', admonition_rule);
   }
 
-  // پلاگین سفارشی برای بازبینه‌ها (task lists)
+  // ═══════════════════════════════════════════════════════════════════════════
+  // پلاگین بازبینه‌ها (task lists)
+  // ═══════════════════════════════════════════════════════════════════════════
   function checklist_plugin(md) {
     md.core.ruler.after('inline', 'github-task-lists', function (state) {
       const tokens = state.tokens;
@@ -176,16 +149,11 @@
 
     function todoify(token, Token) {
       const isChecked = token.content.startsWith('[x] ') || token.content.startsWith('[X] ');
-
-      // حذف '[ ] ' یا '[x] ' از محتوای اصلی
       token.content = token.content.substring(4);
 
-      // اگر توکن‌های فرزند وجود دارند، باید اولین توکن text را هم اصلاح کنیم
       if (token.children && token.children.length > 0) {
-        // پیدا کردن اولین توکن text
         for (let i = 0; i < token.children.length; i++) {
           if (token.children[i].type === 'text') {
-            // حذف '[ ] ' یا '[x] ' از ابتدای متن
             if (token.children[i].content.startsWith('[ ] ') ||
               token.children[i].content.startsWith('[x] ') ||
               token.children[i].content.startsWith('[X] ')) {
@@ -196,30 +164,25 @@
         }
       }
 
-      // ایجاد چک‌باکس
       const checkbox = new Token('html_inline', '', 0);
       checkbox.content = `<input type="checkbox" class="task-list-item-checkbox" disabled ${isChecked ? 'checked' : ''}> `;
 
-      // ایجاد span برای احاطه کردن متن (برای استایل خط خورده)
       const spanOpen = new Token('html_inline', '', 0);
       spanOpen.content = '<span>';
 
       const spanClose = new Token('html_inline', '', 0);
       spanClose.content = '</span>';
 
-      // اضافه کردن چک‌باکس به ابتدا
       token.children.unshift(checkbox);
-
-      // احاطه کردن بقیه محتوا با span
       token.children.splice(1, 0, spanOpen);
       token.children.push(spanClose);
     }
   }
 
-
-  // پلاگین سفارشی برای پشتیبانی از اعداد فارسی در لیست‌های مرتب
+  // ═══════════════════════════════════════════════════════════════════════════
+  // پلاگین پشتیبانی از اعداد فارسی در لیست‌های مرتب
+  // ═══════════════════════════════════════════════════════════════════════════
   function persian_ordered_list_plugin(md) {
-    // یک تابع کمکی برای تبدیل اعداد فارسی به انگلیسی
     function convertPersianToArabicNumbers(str) {
       const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
       const arabicNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -229,13 +192,8 @@
       return str;
     }
 
-    // ما یک قانون "هسته‌ای" (core rule) اضافه می‌کنیم
-    // این قانون قبل از پردازش بلوک‌ها اجرا می‌شود و کل متن را تغییر می‌دهد
     function persian_list_translator(state) {
-      // از یک عبارت باقاعده برای پیدا کردن الگو استفاده می‌کنیم
-      // الگوی ما: (شروع خط)(چند فاصله)(عدد فارسی)(نقطه)(فاصله)
-      const regex = /^(\s*)([۰-۹]+)(\.\s)/gm;
-
+      const regex = /^(\s*)([۰-۹]+)(\.\\s)/gm;
       state.src = state.src.replace(regex, (match, indentation, persianNumber, rest) => {
         const englishNumber = convertPersianToArabicNumbers(persianNumber);
         return `${indentation}${englishNumber}${rest}`;
@@ -245,32 +203,27 @@
     md.core.ruler.before('block', 'persian_ordered_list', persian_list_translator);
   }
 
-
-  // پلاگین سفارشی برای نمایش شعر
+  // ═══════════════════════════════════════════════════════════════════════════
+  // پلاگین نمایش شعر
+  // ═══════════════════════════════════════════════════════════════════════════
   function poetry_plugin(md) {
     function poetry_rule(state, startLine, endLine, silent) {
       const startMarker = '...شعر';
       const endMarker = '...';
 
-      // بررسی خط شروع
       let pos = state.bMarks[startLine] + state.tShift[startLine];
       let max = state.eMarks[startLine];
       let firstLine = state.src.slice(pos, max).trim();
 
-      if (firstLine !== startMarker) {
-        return false;
-      }
+      if (firstLine !== startMarker) return false;
 
-      // پیدا کردن خط پایان
       let nextLine = startLine;
       let foundEnd = false;
       let verses = [];
 
       while (nextLine < endLine) {
         nextLine++;
-        if (nextLine >= endLine) {
-          break;
-        }
+        if (nextLine >= endLine) break;
 
         pos = state.bMarks[nextLine] + state.tShift[nextLine];
         max = state.eMarks[nextLine];
@@ -281,41 +234,26 @@
           break;
         }
 
-        // جمع‌آوری ابیات
-        // خطوط خالی را به عنوان جداکننده بین بیت‌ها در نظر می‌گیریم
         if (currentLine === '') {
-          verses.push({
-            type: 'separator'
-          });
+          verses.push({ type: 'separator' });
         } else {
-          verses.push({
-            type: 'verse',
-            content: currentLine
-          });
+          verses.push({ type: 'verse', content: currentLine });
         }
       }
 
-      if (!foundEnd) {
-        return false;
-      }
+      if (!foundEnd) return false;
 
-      // ساختن توکن‌ها
       if (!silent) {
         let token;
 
-        // باز کردن تگ div برای شعر
         token = state.push('poetry_open', 'div', 1);
-        token.attrs = [
-          ['class', 'poetry-container']
-        ];
+        token.attrs = [['class', 'poetry-container']];
         token.block = true;
 
-        // پردازش ابیات
         let currentStanza = [];
 
         for (let i = 0; i < verses.length; i++) {
           if (verses[i].type === 'separator') {
-            // اگر بیت قبلی وجود داشت، آن را رندر کن
             if (currentStanza.length > 0) {
               renderStanza(state, currentStanza);
               currentStanza = [];
@@ -325,12 +263,10 @@
           }
         }
 
-        // رندر آخرین بیت
         if (currentStanza.length > 0) {
           renderStanza(state, currentStanza);
         }
 
-        // بستن تگ div
         token = state.push('poetry_close', 'div', -1);
       }
 
@@ -341,20 +277,13 @@
     function renderStanza(state, lines) {
       let token;
 
-      // باز کردن div برای هر بیت
       token = state.push('stanza_open', 'div', 1);
-      token.attrs = [
-        ['class', 'poetry-stanza']
-      ];
+      token.attrs = [['class', 'poetry-stanza']];
 
-      // رندر هر مصرع
       for (let line of lines) {
         token = state.push('verse_open', 'p', 1);
-        token.attrs = [
-          ['class', 'poetry-verse']
-        ];
+        token.attrs = [['class', 'poetry-verse']];
 
-        // اجازه می‌دهیم markdown-it محتوای inline را پردازش کند
         token = state.push('inline', '', 0);
         token.content = line;
         token.children = [];
@@ -362,15 +291,15 @@
         token = state.push('verse_close', 'p', -1);
       }
 
-      // بستن div بیت
       token = state.push('stanza_close', 'div', -1);
     }
 
     md.block.ruler.before('fence', 'poetry', poetry_rule);
   }
 
-
-  // پلاگین هوشمند برای تشخیص خودکار جهت متن (نسخه بهبودیافته)
+  // ═══════════════════════════════════════════════════════════════════════════
+  // پلاگین تشخیص خودکار جهت متن
+  // ═══════════════════════════════════════════════════════════════════════════
   function auto_direction_plugin(md) {
     function detectDirection(text) {
       const rtlRegex = /[\u0600-\u06FF]/;
@@ -383,13 +312,12 @@
       return 'rtl';
     }
 
-    // لیستی از تگ‌های بلوکی که می‌خواهیم جهت‌شان را تنظیم کنیم
     const blockRules = [
       'paragraph_open',
       'heading_open',
-      'list_item_open', // برای آیتم‌های لیست
+      'list_item_open',
       'blockquote_open',
-      'table_open' // جدول‌ها را اضافه کردیم
+      'table_open'
     ];
 
     blockRules.forEach(ruleName => {
@@ -401,9 +329,7 @@
         const token = tokens[idx];
         let content = '';
 
-        // منطق پیدا کردن محتوا برای هر نوع تگ
         if (ruleName === 'table_open') {
-          // برای جداول، محتوای اولین سلول هدر را پیدا می‌کنیم
           for (let j = idx + 1; j < tokens.length; j++) {
             if (tokens[j].type === 'table_close') break;
             if (tokens[j].type === 'inline') {
@@ -412,7 +338,6 @@
             }
           }
         } else {
-          // منطق قبلی برای سایر تگ‌ها
           let nextToken = tokens[idx + 1];
           if (nextToken && nextToken.type === 'inline') {
             content = nextToken.content;
@@ -431,18 +356,19 @@
     });
   }
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // تابع اصلی createParsNeshan
+  // ═══════════════════════════════════════════════════════════════════════════
   function createParsNeshan(options = {}) {
     const { plugins = [], ...mdOptions } = options;
 
-    // بررسی وجود markdownit
     if (typeof markdownit !== 'function') {
       throw new Error('پارس‌نشان: کتابخانه markdown-it یافت نشد. لطفاً ابتدا آن را بارگذاری کنید.');
     }
 
-    // یک نمونه از markdown-it با تنظیمات پاس داده شده می‌سازیم
     const md = markdownit({
-      html: true, // مقدار پیش‌فرض
-      ...mdOptions // تنظیمات کاربر جایگزین پیش‌فرض‌ها می‌شود
+      html: true,
+      ...mdOptions
     });
 
     md.use(highlight_plugin);
@@ -454,18 +380,14 @@
 
     plugins.forEach(pluginConfig => {
       if (Array.isArray(pluginConfig)) {
-        // اگر پلاگین به همراه تنظیمات بود (مثلا [plugin, { options }])
         md.use(...pluginConfig);
       } else {
-        // اگر فقط خود پلاگین بود
         md.use(pluginConfig);
       }
     });
 
-    // مفسر نهایی و کاملا شخصی‌سازی شده را برمی‌گردانیم
     return md;
   }
 
-  // برگرداندن تابع سازنده
   return createParsNeshan;
 }));
