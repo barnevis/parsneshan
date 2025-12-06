@@ -136,3 +136,6 @@ Uncaught TypeError: window.markdownit is not a function
 
 ## پرامپت ۲۴
 فایل package.json پروژه را بساز.
+
+## پرامپت ۲۵
+مشکل عملکردی تابع `detectDirection` را بر طرف کن.

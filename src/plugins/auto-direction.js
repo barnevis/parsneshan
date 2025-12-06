@@ -1,12 +1,25 @@
 /**
- * @fileoverview افزونه تشخیص خودکار جهت متن برای پارس‌نشان
- * @description این افزونه جهت متن (راست‌به‌چپ یا چپ‌به‌راست) را بر اساس محتوا تشخیص می‌دهد
- * @author پارس‌نشان
- * @license MIT
+ * عبارات منظم از پیش کامپایل‌شده برای تشخیص جهت
+ * @constant
  */
+const RTL_CHARS = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+const LTR_CHARS = /[A-Za-z\u00C0-\u00FF\u0100-\u017F]/;
+const FIRST_STRONG_CHAR = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFFA-Za-z\u00C0-\u00FF\u0100-\u017F]/;
 
 /**
- * تشخیص جهت متن
+ * کش نتایج تشخیص جهت برای بهبود عملکرد
+ * @type {Map<string, 'rtl'|'ltr'>}
+ */
+const directionCache = new Map();
+
+/** حداکثر اندازه کش */
+const MAX_CACHE_SIZE = 1000;
+
+/**
+ * تشخیص جهت متن بهینه‌شده
+ * 
+ * این تابع از کش برای جلوگیری از محاسبات تکراری استفاده می‌کند
+ * و فقط اولین نویسه معنادار را بررسی می‌کند
  * 
  * @param {string} text - متن ورودی
  * @returns {'rtl'|'ltr'} جهت متن
@@ -16,16 +29,38 @@
  * detectDirection('Hello') // 'ltr'
  */
 function detectDirection(text) {
-    const rtlRegex = /[\u0600-\u06FF]/;
-    const ltrRegex = /[a-zA-Z]/;
-
-    for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        if (rtlRegex.test(char)) return 'rtl';
-        if (ltrRegex.test(char)) return 'ltr';
+    // بررسی ورودی خالی
+    if (!text || typeof text !== 'string') {
+        return 'rtl';
     }
 
-    return 'rtl'; // پیش‌فرض برای زبان فارسی
+    // استفاده از ۵۰ نویسه اول برای کلید کش (بهینه‌سازی حافظه)
+    const cacheKey = text.slice(0, 50);
+
+    // بررسی کش
+    if (directionCache.has(cacheKey)) {
+        return directionCache.get(cacheKey);
+    }
+
+    // پیدا کردن اولین نویسه معنادار
+    const match = text.match(FIRST_STRONG_CHAR);
+
+    let direction = 'rtl'; // پیش‌فرض برای زبان فارسی
+
+    if (match) {
+        const char = match[0];
+        direction = RTL_CHARS.test(char) ? 'rtl' : 'ltr';
+    }
+
+    // ذخیره در کش با محدودیت اندازه
+    if (directionCache.size >= MAX_CACHE_SIZE) {
+        // حذف اولین آیتم (ساده‌ترین استراتژی LRU)
+        const firstKey = directionCache.keys().next().value;
+        directionCache.delete(firstKey);
+    }
+    directionCache.set(cacheKey, direction);
+
+    return direction;
 }
 
 /**
