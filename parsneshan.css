@@ -1,8 +1,8 @@
 /**
- * پارس‌نشان - استایل‌های CSS
+ * پارس‌نشان - استایل‌های اصلی
  * نسخه: ۱.۱.۰
  * 
- * این فایل شامل تمام استایل‌های مورد نیاز برای نمایش خروجی پارس‌نشان است.
+ * این فایل شامل استایل‌های الزامی برای پلاگین‌های پارس‌نشان است.
  * از CSS Variables برای سفارشی‌سازی آسان استفاده شده است.
  */
 
@@ -52,56 +52,6 @@
   /* شعر */
   --poetry-max-width: 800px;
   --poetry-font-family: 'Vazirmatn', 'Tahoma', serif;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   استایل‌های پایه صفحه دمو
-   ═══════════════════════════════════════════════════════════════════════════ */
-body {
-  font-family: var(--parsneshan-font-family);
-  background-color: var(--parsneshan-bg-color);
-  color: var(--parsneshan-text-color);
-  margin: 0;
-  padding: 20px;
-}
-
-.container {
-  display: flex;
-  gap: 20px;
-  height: 75vh;
-}
-
-.container>div {
-  flex: 1;
-  background-color: var(--parsneshan-card-bg);
-  border-radius: var(--parsneshan-border-radius);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  overflow: auto;
-}
-
-textarea {
-  width: 100%;
-  height: 100%;
-  border: none;
-  resize: none;
-  font-size: var(--parsneshan-font-size);
-  line-height: var(--parsneshan-line-height);
-  box-sizing: border-box;
-}
-
-textarea:focus {
-  outline: none;
-}
-
-#output {
-  font-size: var(--parsneshan-font-size);
-  line-height: var(--parsneshan-line-height);
-}
-
-#output h2 {
-  border-bottom: 1px solid var(--parsneshan-border-color);
-  padding-bottom: 5px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -223,74 +173,16 @@ textarea:focus {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   عناصر پایه مارک‌داون
+   هایلایت متن (Highlight)
    ═══════════════════════════════════════════════════════════════════════════ */
-
-/* نقل‌قول */
-blockquote {
-  margin: 1em 0;
-  padding: 0.5em 1em;
-  border-right: 4px solid var(--parsneshan-border-color);
-  background-color: var(--table-row-even-bg);
-  color: #666;
-  font-style: italic;
-}
-
-/* کد تک‌خطی */
-code {
-  background-color: var(--code-bg-color);
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-  font-family: var(--parsneshan-code-font);
-  font-size: 0.9em;
-  color: var(--code-text-color);
-  direction: ltr;
-}
-
-/* بلوک کد */
-pre {
-  background-color: var(--code-block-bg);
-  border: 1px solid var(--code-block-border);
-  border-radius: 4px;
-  padding: 1em;
-  overflow-x: auto;
-  direction: ltr;
-}
-
-pre code {
-  background-color: transparent;
-  padding: 0;
-  color: var(--parsneshan-text-color);
-}
-
-/* لینک‌ها */
-a {
-  color: var(--link-color);
-  text-decoration: none;
-}
-
-a:hover {
-  color: var(--link-hover-color);
-  text-decoration: underline;
-}
-
-/* خط افقی */
-hr {
-  border: none;
-  border-top: 2px solid var(--code-block-border);
-  margin: 2em 0;
-}
-
-/* تصاویر */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 1em auto;
+mark {
+  background-color: #fff3cd;
+  padding: 0.1em 0.2em;
+  border-radius: 2px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   لیست‌ها
+   جهت‌گیری خودکار (Auto Direction)
    ═══════════════════════════════════════════════════════════════════════════ */
 li[dir="ltr"] {
   direction: ltr;
@@ -300,38 +192,4 @@ li[dir="ltr"] {
 li[dir="rtl"] {
   direction: rtl;
   text-align: right;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   جداول
-   ═══════════════════════════════════════════════════════════════════════════ */
-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 1em 0;
-}
-
-table th,
-table td {
-  border: 1px solid var(--table-border-color);
-  padding: 8px 12px;
-}
-
-table th {
-  background-color: var(--table-header-bg);
-  font-weight: bold;
-}
-
-table tr:nth-child(even) {
-  background-color: var(--table-row-even-bg);
-}
-
-table[dir="rtl"] th,
-table[dir="rtl"] td {
-  text-align: right;
-}
-
-table[dir="ltr"] th,
-table[dir="ltr"] td {
-  text-align: left;
 }

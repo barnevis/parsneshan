@@ -1,0 +1,116 @@
+/**
+ * پارس‌نشان - استایل‌های پایه مارک‌داون
+ * نسخه: ۱.۱.۰
+ * 
+ * این فایل شامل استایل‌های اختیاری برای عناصر پایه مارک‌داون است.
+ * اگر پروژه شما سیستم CSS خودش را دارد، نیازی به استفاده از این فایل نیست.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   نقل‌قول (Blockquote)
+   ═══════════════════════════════════════════════════════════════════════════ */
+blockquote {
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    border-right: 4px solid var(--parsneshan-border-color, #ddd);
+    background-color: var(--table-row-even-bg, #f9f9f9);
+    color: #666;
+    font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   کد (Code)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* کد تک‌خطی */
+code {
+    background-color: var(--code-bg-color, #f4f4f4);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: var(--parsneshan-code-font, 'Consolas', 'Monaco', 'Courier New', monospace);
+    font-size: 0.9em;
+    color: var(--code-text-color, #c7254e);
+    direction: ltr;
+}
+
+/* بلوک کد */
+pre {
+    background-color: var(--code-block-bg, #f8f8f8);
+    border: 1px solid var(--code-block-border, #e1e1e1);
+    border-radius: 4px;
+    padding: 1em;
+    overflow-x: auto;
+    direction: ltr;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    color: var(--parsneshan-text-color, #333);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   لینک‌ها (Links)
+   ═══════════════════════════════════════════════════════════════════════════ */
+a {
+    color: var(--link-color, #0066cc);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--link-hover-color, #004499);
+    text-decoration: underline;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   خط افقی (Horizontal Rule)
+   ═══════════════════════════════════════════════════════════════════════════ */
+hr {
+    border: none;
+    border-top: 2px solid var(--code-block-border, #e1e1e1);
+    margin: 2em 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   تصاویر (Images)
+   ═══════════════════════════════════════════════════════════════════════════ */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   جداول (Tables)
+   ═══════════════════════════════════════════════════════════════════════════ */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+}
+
+table th,
+table td {
+    border: 1px solid var(--table-border-color, #ddd);
+    padding: 8px 12px;
+}
+
+table th {
+    background-color: var(--table-header-bg, #f5f5f5);
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: var(--table-row-even-bg, #f9f9f9);
+}
+
+table[dir="rtl"] th,
+table[dir="rtl"] td {
+    text-align: right;
+}
+
+table[dir="ltr"] th,
+table[dir="ltr"] td {
+    text-align: left;
+}
