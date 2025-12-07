@@ -1,6 +1,6 @@
 # پارس‌نشان (ParsNeshan)
 
-![پارس‌نشان](https://img.shields.io/badge/ParsNeshan-v1.0.0-blue)
+![پارس‌نشان](https://img.shields.io/badge/ParsNeshan-v1.1.0-blue)
 ![زبان](https://img.shields.io/badge/Language-Persian-green)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
@@ -110,11 +110,13 @@
 
 ### استفاده ساده
 
-برای استفاده از «پارس‌نشان» با تنظیمات پیش‌فرض، فایل‌های `parsneshan.js` و `parsneshan.css` را به همراه کتابخانه اصلی `markdown-it` به صفحه خود اضافه کنید:
+برای استفاده از «پارس‌نشان» با تنظیمات پیش‌فرض، فایل‌های زیر را به همراه کتابخانه اصلی `markdown-it` به صفحه خود اضافه کنید:
 
 ```html
-<!-- استایل‌های پارس‌نشان -->
-<link rel="stylesheet" href="path/to/parsneshan.css">
+<!-- استایل‌های الزامی پارس‌نشان -->
+<link rel="stylesheet" href="path/to/styles/parsneshan.css">
+<!-- استایل‌های پایه مارک‌داون (اختیاری - اگر سیستم CSS خودتان را دارید نیازی نیست) -->
+<link rel="stylesheet" href="path/to/styles/parsneshan-base.css">
 
 <!-- کتابخانه اصلی -->
 <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
