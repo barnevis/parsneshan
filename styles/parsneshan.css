@@ -1,0 +1,195 @@
+/**
+ * پارس‌نشان - استایل‌های اصلی
+ * نسخه: ۱.۱.۰
+ * 
+ * این فایل شامل استایل‌های الزامی برای پلاگین‌های پارس‌نشان است.
+ * از CSS Variables برای سفارشی‌سازی آسان استفاده شده است.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   متغیرهای CSS - برای سفارشی‌سازی این مقادیر را تغییر دهید
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* رنگ‌های اصلی */
+  --parsneshan-text-color: #333;
+  --parsneshan-bg-color: #f0f2f5;
+  --parsneshan-card-bg: #fff;
+  --parsneshan-border-color: #ddd;
+  --parsneshan-border-radius: 8px;
+
+  /* فونت‌ها */
+  --parsneshan-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Vazirmatn", Roboto, sans-serif;
+  --parsneshan-font-size: 16px;
+  --parsneshan-line-height: 1.6;
+  --parsneshan-code-font: 'Consolas', 'Monaco', 'Courier New', monospace;
+
+  /* رنگ‌های جعبه‌های توضیحی */
+  --admonition-note-color: #58a6ff;
+  --admonition-tip-color: #3fb950;
+  --admonition-warning-color: #d29922;
+  --admonition-important-color: #a371f7;
+  --admonition-caution-color: #f85149;
+  --admonition-bg-color: #f8f9fa;
+
+  /* رنگ‌های لینک */
+  --link-color: #0066cc;
+  --link-hover-color: #004499;
+
+  /* رنگ‌های کد */
+  --code-bg-color: #f4f4f4;
+  --code-text-color: #c7254e;
+  --code-block-bg: #f8f8f8;
+  --code-block-border: #e1e1e1;
+
+  /* رنگ‌های جدول */
+  --table-border-color: #ddd;
+  --table-header-bg: #f5f5f5;
+  --table-row-even-bg: #f9f9f9;
+
+  /* رنگ‌های بازبینه */
+  --checklist-checked-color: #888;
+
+  /* شعر */
+  --poetry-max-width: 800px;
+  --poetry-font-family: 'Vazirmatn', 'Tahoma', serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   جعبه‌های توضیحی (Admonitions)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.admonition {
+  padding: 15px;
+  margin: 1.5em 0;
+  border-right: 5px solid var(--parsneshan-border-color);
+  border-radius: 4px;
+  background-color: var(--admonition-bg-color);
+  color: var(--parsneshan-text-color);
+}
+
+.admonition-title {
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* توجه (Note) */
+.admonition.note {
+  border-color: var(--admonition-note-color);
+}
+
+.admonition.note .admonition-title {
+  color: var(--admonition-note-color);
+}
+
+/* نکته (Tip) */
+.admonition.tip {
+  border-color: var(--admonition-tip-color);
+}
+
+.admonition.tip .admonition-title {
+  color: var(--admonition-tip-color);
+}
+
+/* هشدار (Warning) */
+.admonition.warning {
+  border-color: var(--admonition-warning-color);
+}
+
+.admonition.warning .admonition-title {
+  color: var(--admonition-warning-color);
+}
+
+/* مهم (Important) */
+.admonition.important {
+  border-color: var(--admonition-important-color);
+}
+
+.admonition.important .admonition-title {
+  color: var(--admonition-important-color);
+}
+
+/* احتیاط (Caution) */
+.admonition.caution {
+  border-color: var(--admonition-caution-color);
+}
+
+.admonition.caution .admonition-title {
+  color: var(--admonition-caution-color);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   بازبینه‌ها (Checklists)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.task-list-item {
+  list-style-type: none;
+}
+
+.task-list-item label {
+  display: flex;
+  align-items: center;
+}
+
+.task-list-item-checkbox {
+  margin-left: 0.5em;
+}
+
+.task-list-item input:checked+span {
+  text-decoration: line-through;
+  color: var(--checklist-checked-color);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   شعر (Poetry)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.poetry-container {
+  margin: 2em auto;
+  padding: 1em 0;
+  max-width: var(--poetry-max-width);
+}
+
+.poetry-stanza {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2em;
+  margin-bottom: 1.2em;
+  text-align: center;
+}
+
+.poetry-verse {
+  margin: 0;
+  font-family: var(--poetry-font-family);
+  font-size: 1.1em;
+  line-height: 1.8;
+  color: var(--parsneshan-text-color);
+  padding: 0 1em;
+}
+
+/* موبایل */
+@media (max-width: 600px) {
+  .poetry-stanza {
+    grid-template-columns: 1fr;
+    gap: 0.5em;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   هایلایت متن (Highlight)
+   ═══════════════════════════════════════════════════════════════════════════ */
+mark {
+  background-color: #fff3cd;
+  padding: 0.1em 0.2em;
+  border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   جهت‌گیری خودکار (Auto Direction)
+   ═══════════════════════════════════════════════════════════════════════════ */
+li[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
+li[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}

@@ -6,9 +6,9 @@
     "browser": "parsneshan.js",
     "files": [
         "src/",
-        "parsneshan.js",
-        "parsneshan.css",
-        "parsneshan-base.css"
+        "styles/parsneshan.css",
+        "styles/parsneshan-base.css",
+        "parsneshan.js"
     ],
     "scripts": {
         "test": "node test.js"
