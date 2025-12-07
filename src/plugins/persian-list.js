@@ -44,12 +44,12 @@ function persian_ordered_list_plugin(md) {
      * @param {Object} state - وضعیت فعلی پردازشگر
      */
     function persian_list_translator(state) {
-        // الگو: (شروع خط)(فاصله‌ها)(عدد فارسی)(نقطه)(فاصله)
-        const regex = /^(\s*)([۰-۹]+)(\.\\s)/gm;
+        // الگو: (شروع خط)(فاصله‌ها)(عدد فارسی)(نقطه و فاصله)
+        const regex = /^(\s*)([۰-۹]+)\. /gm;
 
-        state.src = state.src.replace(regex, (match, indentation, persianNumber, rest) => {
+        state.src = state.src.replace(regex, (match, indentation, persianNumber) => {
             const englishNumber = convertPersianToArabicNumbers(persianNumber);
-            return `${indentation}${englishNumber}${rest}`;
+            return `${indentation}${englishNumber}. `;
         });
     }
 

@@ -193,10 +193,10 @@
     }
 
     function persian_list_translator(state) {
-      const regex = /^(\s*)([۰-۹]+)(\.\\s)/gm;
-      state.src = state.src.replace(regex, (match, indentation, persianNumber, rest) => {
+      const regex = /^(\s*)([۰-۹]+)\. /gm;
+      state.src = state.src.replace(regex, (match, indentation, persianNumber) => {
         const englishNumber = convertPersianToArabicNumbers(persianNumber);
-        return `${indentation}${englishNumber}${rest}`;
+        return `${indentation}${englishNumber}. `;
       });
     }
 
