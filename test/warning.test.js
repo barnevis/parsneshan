@@ -2,6 +2,8 @@ import {test} from 'node:test'
 import assert from 'node:assert/strict'
 import {micromark} from 'micromark'
 import {warning, warningHtml} from '../extensions/warning/index.js'
+import {caution, cautionHtml} from '../extensions/caution/index.js'
+import {alert, alertHtml} from '../extensions/alert/index.js'
 
 /** @type {import('micromark-util-types').Options} */
 const options = {
@@ -105,7 +107,28 @@ test('opening line without space after dots works', () => {
   )
 })
 
-test('up to three spaces of indentation are allowed', () => {
+test('no indentation works', () => {
+  assert.equal(
+    render('... هشدار\nمتن\n...\n'),
+    '<div class="parsneshan-warning">\n<p>متن</p>\n</div>\n'
+  )
+})
+
+test('one space of indentation is allowed', () => {
+  assert.equal(
+    render(' ... هشدار\n متن\n ...\n'),
+    '<div class="parsneshan-warning">\n<p>متن</p>\n</div>\n'
+  )
+})
+
+test('two spaces of indentation are allowed', () => {
+  assert.equal(
+    render('  ... هشدار\n  متن\n  ...\n'),
+    '<div class="parsneshan-warning">\n<p>متن</p>\n</div>\n'
+  )
+})
+
+test('three spaces of indentation are allowed', () => {
   assert.equal(
     render('   ... هشدار\n   متن\n   ...\n'),
     '<div class="parsneshan-warning">\n<p>متن</p>\n</div>\n'
@@ -165,5 +188,21 @@ test('without the extension, standard markdown behavior is preserved', () => {
   assert.equal(
     micromark('... هشدار\nمتن\n...\n'),
     '<p>... هشدار\nمتن\n...</p>\n'
+  )
+})
+
+test('coexists with caution and alert without interference', () => {
+  const html = micromark(
+    '... هشدار\nالف\n...\n\n... احتیاط\nب\n...\n\n... اخطار\nپ\n...\n',
+    {
+      extensions: [warning(), caution(), alert()],
+      htmlExtensions: [warningHtml(), cautionHtml(), alertHtml()]
+    }
+  )
+  assert.equal(
+    html,
+    '<div class="parsneshan-warning">\n<p>الف</p>\n</div>\n' +
+      '<div class="parsneshan-caution">\n<p>ب</p>\n</div>\n' +
+      '<div class="parsneshan-alert">\n<p>پ</p>\n</div>\n'
   )
 })

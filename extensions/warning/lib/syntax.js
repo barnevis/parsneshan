@@ -1,7 +1,6 @@
 /**
  * @import {
  *   Construct,
- *   Exiter,
  *   Extension,
  *   State,
  *   TokenizeContext,
