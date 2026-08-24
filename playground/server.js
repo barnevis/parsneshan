@@ -36,9 +36,9 @@ function resolvePackage(name) {
         ? entry
         : (entry?.default ??
           Object.values(entry ?? {}).find((d) => typeof d === 'string'))
-    if (!file) file = pkg.main ?? './index.js'
+    if (!file) file = pkg.main ?? 'index.js'
     const url =
-      '/node_modules/' + name + (file.startsWith('.') ? file.slice(1) : file)
+      '/node_modules/' + name + '/' + file.replace(/^\.\//, '')
     resolved.set(name, url)
     return url
   } catch {
@@ -71,8 +71,11 @@ createServer(async (request, response) => {
 
   try {
     let data = await readFile(join(root, file))
-    if (extname(file) === '.js') data = rewriteBareSpecifiers(String(data))
-    response.setHeader('content-type', types[extname(file)] ?? 'text/plain')
+    const extension = extname(file)
+    if (extension === '.js' || extension === '.html') {
+      data = rewriteBareSpecifiers(String(data))
+    }
+    response.setHeader('content-type', types[extension] ?? 'text/plain')
     response.end(data)
   } catch {
     response.statusCode = 404
