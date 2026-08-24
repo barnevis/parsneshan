@@ -99,9 +99,30 @@ test('opening line without space after dots works', () => {
   )
 })
 
-test('up to three spaces of indentation are allowed', () => {
+test('three spaces of indentation are allowed', () => {
   assert.equal(
     render('   ... احتیاط\n   متن\n   ...\n'),
+    '<div class="parsneshan-caution">\n<p>متن</p>\n</div>\n'
+  )
+})
+
+test('one space of indentation is allowed', () => {
+  assert.equal(
+    render(' ... احتیاط\n متن\n ...\n'),
+    '<div class="parsneshan-caution">\n<p>متن</p>\n</div>\n'
+  )
+})
+
+test('two spaces of indentation are allowed', () => {
+  assert.equal(
+    render('  ... احتیاط\n  متن\n  ...\n'),
+    '<div class="parsneshan-caution">\n<p>متن</p>\n</div>\n'
+  )
+})
+
+test('no indentation works', () => {
+  assert.equal(
+    render('... احتیاط\nمتن\n...\n'),
     '<div class="parsneshan-caution">\n<p>متن</p>\n</div>\n'
   )
 })
