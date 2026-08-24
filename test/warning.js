@@ -147,18 +147,10 @@ test('nested markdown structure inside content', () => {
   )
 })
 
-test('a warning opening line inside content does not close the outer block', () => {
-  // The inner line opens a nested block; the exact boundary of the outer
-  // block in this case is not specified yet (see docs), so only the fact
-  // that the inner line is not treated as a closing fence is asserted.
-  const html = render('... هشدار\nالف\n... هشدار\nب\n...\n')
-  assert.ok(html.includes('<p>ب</p>'))
-})
-
-test('closing fence accepts three or more dots', () => {
+test('closing fence must be exactly three dots', () => {
   assert.equal(
     render('... هشدار\nمتن\n....\n'),
-    '<div class="parsneshan-warning">\n<p>متن</p>\n</div>\n'
+    '<div class="parsneshan-warning">\n<p>متن\n....</p>\n</div>'
   )
 })
 

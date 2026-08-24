@@ -1,7 +1,6 @@
 /**
  * @import {
  *   Construct,
- *   Exiter,
  *   Extension,
  *   State,
  *   TokenizeContext,
@@ -13,26 +12,26 @@ import {factorySpace} from 'micromark-factory-space'
 import {markdownLineEnding, markdownSpace} from 'micromark-util-character'
 import {codes, constants, types} from 'micromark-util-symbol'
 
-/** Code points of the word `هشدار`. */
-const labelCodes = [0x0647, 0x0634, 0x062f, 0x0627, 0x0631]
+/** Code points of the word `احتیاط`. */
+const labelCodes = [0x0627, 0x062d, 0x062a, 0x06cc, 0x0627, 0x0637]
 
 const closingFence = {tokenize: tokenizeClosingFence, partial: true}
 const nonLazyLine = {tokenize: tokenizeNonLazyLine, partial: true}
 
 /** @type {Construct} */
-const warningConstruct = {
+const cautionConstruct = {
   concrete: true,
-  name: 'parsneshanWarning',
-  tokenize: tokenizeWarning
+  name: 'parsneshanCaution',
+  tokenize: tokenizeCaution
 }
 
 /**
- * Start of a warning block.
+ * Start of a caution block.
  *
  * ```markdown
- * > | ... هشدار
+ * > | ... احتیاط
  *     ^
- *   | متن هشدار
+ *   | متن احتیاط
  * > | ...
  *     ^
  * ```
@@ -41,7 +40,7 @@ const warningConstruct = {
  *   Context.
  * @type {Tokenizer}
  */
-function tokenizeWarning(effects, ok, nok) {
+function tokenizeCaution(effects, ok, nok) {
   const self = this
   /** @type {import('micromark-util-types').Token | undefined} */
   let previous
@@ -53,16 +52,16 @@ function tokenizeWarning(effects, ok, nok) {
    * Start of opening fence.
    *
    * ```markdown
-   * > | ... هشدار
+   * > | ... احتیاط
    *     ^
    * ```
    *
    * @type {State}
    */
   function start(code) {
-    effects.enter('parsneshanWarning')
-    effects.enter('parsneshanWarningFence')
-    effects.enter('parsneshanWarningFenceSequence')
+    effects.enter('parsneshanCaution')
+    effects.enter('parsneshanCautionFence')
+    effects.enter('parsneshanCautionFenceSequence')
     return fenceSequence(code)
   }
 
@@ -79,10 +78,10 @@ function tokenizeWarning(effects, ok, nok) {
 
   /** @type {State} */
   function afterFenceSequence(code) {
-    effects.exit('parsneshanWarningFenceSequence')
+    effects.exit('parsneshanCautionFenceSequence')
 
     if (markdownSpace(code)) {
-      effects.enter('parsneshanWarningFenceWhitespace')
+      effects.enter('parsneshanCautionFenceWhitespace')
       return fenceWhitespace(code)
     }
 
@@ -96,14 +95,14 @@ function tokenizeWarning(effects, ok, nok) {
       return fenceWhitespace
     }
 
-    effects.exit('parsneshanWarningFenceWhitespace')
+    effects.exit('parsneshanCautionFenceWhitespace')
     return beforeLabel(code)
   }
 
   /** @type {State} */
   function beforeLabel(code) {
     if (code !== labelCodes[0]) return nok(code)
-    effects.enter('parsneshanWarningLabel')
+    effects.enter('parsneshanCautionLabel')
     effects.consume(code)
     return label(1)
   }
@@ -126,7 +125,7 @@ function tokenizeWarning(effects, ok, nok) {
    * After the label, before the end of the opening line.
    *
    * ```markdown
-   * > | ... هشدار
+   * > | ... احتیاط
    *               ^
    * ```
    *
@@ -138,8 +137,8 @@ function tokenizeWarning(effects, ok, nok) {
       return afterLabel
     }
 
-    effects.exit('parsneshanWarningLabel')
-    effects.exit('parsneshanWarningFence')
+    effects.exit('parsneshanCautionLabel')
+    effects.exit('parsneshanCautionFence')
 
     if (code === codes.eof) return after(code)
 
@@ -154,8 +153,8 @@ function tokenizeWarning(effects, ok, nok) {
    * Before content.
    *
    * ```markdown
-   *   | ... هشدار
-   * > | متن هشدار
+   *   | ... احتیاط
+   * > | متن احتیاط
    *     ^
    * ```
    *
@@ -172,7 +171,7 @@ function tokenizeWarning(effects, ok, nok) {
       )(code)
     }
 
-    effects.enter('parsneshanWarningContent')
+    effects.enter('parsneshanCautionContent')
     return lineStart(code)
   }
 
@@ -244,28 +243,28 @@ function tokenizeWarning(effects, ok, nok) {
 
   /** @type {State} */
   function emptyContentNonLazyLineAfter(code) {
-    effects.enter('parsneshanWarningContent')
+    effects.enter('parsneshanCautionContent')
     return lineStart(code)
   }
 
   /** @type {State} */
   function afterContent(code) {
-    effects.exit('parsneshanWarningContent')
+    effects.exit('parsneshanCautionContent')
     return after(code)
   }
 
   /** @type {State} */
   function after(code) {
-    effects.exit('parsneshanWarning')
+    effects.exit('parsneshanCaution')
     return ok(code)
   }
 }
 
 /**
- * Closing fence of a warning block.
+ * Closing fence of a caution block.
  *
  * ```markdown
- *   | متن هشدار
+ *   | متن احتیاط
  * > | ...
  *     ^
  * ```
@@ -286,8 +285,8 @@ function tokenizeClosingFence(effects, ok, nok) {
 
   /** @type {State} */
   function closingPrefixAfter(code) {
-    effects.enter('parsneshanWarningFence')
-    effects.enter('parsneshanWarningFenceSequence')
+    effects.enter('parsneshanCautionFence')
+    effects.enter('parsneshanCautionFenceSequence')
     return closingSequence(code)
   }
 
@@ -301,7 +300,7 @@ function tokenizeClosingFence(effects, ok, nok) {
 
   /** @type {State} */
   function afterSequence(code) {
-    effects.exit('parsneshanWarningFenceSequence')
+    effects.exit('parsneshanCautionFenceSequence')
 
     if (code === codes.dot) return nok(code)
 
@@ -311,7 +310,7 @@ function tokenizeClosingFence(effects, ok, nok) {
   /** @type {State} */
   function closingAfter(code) {
     if (code === codes.eof || markdownLineEnding(code)) {
-      effects.exit('parsneshanWarningFence')
+      effects.exit('parsneshanCautionFence')
       return ok(code)
     }
 
@@ -351,11 +350,11 @@ function tokenizeNonLazyLine(effects, ok, nok) {
 }
 
 /**
- * Syntax extension of `warning`.
+ * Syntax extension of `caution`.
  *
  * @returns {Extension}
  *   Syntax extension.
  */
-export function warning() {
-  return {flow: {[codes.dot]: [warningConstruct]}}
+export function caution() {
+  return {flow: {[codes.dot]: [cautionConstruct]}}
 }
