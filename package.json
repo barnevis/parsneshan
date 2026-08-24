@@ -10,7 +10,8 @@
     "./extensions/alert": "./extensions/alert/index.js"
   },
   "scripts": {
-    "test": "node --test \"test/**/*.test.js\""
+    "test": "node --test \"test/**/*.test.js\"",
+    "playground": "node playground/server.js"
   },
   "keywords": [
     "markdown",

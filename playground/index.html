@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>پارس‌نشان — آزمایشگاه</title>
+<script type="importmap">
+{
+  "imports": {
+    "micromark": "/node_modules/micromark/index.js",
+    "micromark-core-commonmark": "/node_modules/micromark-core-commonmark/index.js",
+    "micromark-factory-destination": "/node_modules/micromark-factory-destination/index.js",
+    "micromark-factory-label": "/node_modules/micromark-factory-label/index.js",
+    "micromark-factory-space": "/node_modules/micromark-factory-space/index.js",
+    "micromark-factory-title": "/node_modules/micromark-factory-title/index.js",
+    "micromark-factory-whitespace": "/node_modules/micromark-factory-whitespace/index.js",
+    "micromark-util-character": "/node_modules/micromark-util-character/index.js",
+    "micromark-util-chunked": "/node_modules/micromark-util-chunked/index.js",
+    "micromark-util-classify-character": "/node_modules/micromark-util-classify-character/index.js",
+    "micromark-util-combine-extensions": "/node_modules/micromark-util-combine-extensions/index.js",
+    "micromark-util-decode-numeric-character-reference": "/node_modules/micromark-util-decode-numeric-character-reference/index.js",
+    "micromark-util-encode": "/node_modules/micromark-util-encode/index.js",
+    "micromark-util-html-tag-name": "/node_modules/micromark-util-html-tag-name/index.js",
+    "micromark-util-normalize-identifier": "/node_modules/micromark-util-normalize-identifier/index.js",
+    "micromark-util-resolve-all": "/node_modules/micromark-util-resolve-all/index.js",
+    "micromark-util-sanitize-uri": "/node_modules/micromark-util-sanitize-uri/index.js",
+    "micromark-util-subtokenize": "/node_modules/micromark-util-subtokenize/index.js",
+    "micromark-util-types": "/node_modules/micromark-util-types/index.js",
+    "micromark-util-symbol": "/node_modules/micromark-util-symbol/lib/default.js",
+    "decode-named-character-reference": "/node_modules/decode-named-character-reference/index.js",
+    "character-entities": "/node_modules/character-entities/index.js"
+  }
+}
+</script>
+<style>
+  * { box-sizing: border-box }
+  body { font-family: sans-serif; margin: 0 auto; max-width: 60rem; padding: 1rem }
+  h1 { font-size: 1.25rem }
+  .panes { display: flex; gap: 1rem }
+  textarea { flex: 1; min-height: 24rem; font-family: monospace; padding: .5rem; resize: vertical }
+  #output { border: 1px solid #ccc; flex: 1; min-height: 24rem; padding: .5rem }
+</style>
+</head>
+<body>
+<h1>آزمایشگاه پارس‌نشان</h1>
+<div class="panes">
+  <textarea id="input" spellcheck="false"></textarea>
+  <div id="output"></div>
+</div>
+<script type="module">
+import {micromark} from 'micromark'
+import {warning, warningHtml, caution, cautionHtml, alert, alertHtml} from '../index.js'
+
+const extensions = [warning(), caution(), alert()]
+const htmlExtensions = [warningHtml(), cautionHtml(), alertHtml()]
+
+const input = document.getElementById('input')
+const output = document.getElementById('output')
+
+function render() {
+  output.innerHTML = micromark(input.value, {extensions, htmlExtensions})
+}
+
+input.addEventListener('input', render)
+
+input.value = [
+  '# آزمایش پارس‌نشان',
+  '',
+  '... هشدار',
+  'این یک **هشدار** است.',
+  '- مورد یک',
+  '- مورد دو',
+  '...',
+  '',
+  '... احتیاط',
+  'این یک احتیاط است.',
+  '...',
+  '',
+  '... اخطار',
+  'این یک اخطار است.',
+  '...'
+].join('\n')
+
+render()
+</script>
+</body>
+</html>
