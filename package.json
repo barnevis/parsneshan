@@ -1,15 +1,24 @@
 {
   "name": "parsneshan",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "Markdown library with extensions for Persian, built on micromark",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./extensions/warning": "./extensions/warning/index.js"
   },
-  "keywords": [],
+  "scripts": {
+    "test": "node --test \"test/**/*.js\""
+  },
+  "keywords": [
+    "markdown",
+    "micromark",
+    "persian",
+    "farsi"
+  ],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "micromark": "^4.0.2",
     "micromark-factory-space": "^2.0.1",
