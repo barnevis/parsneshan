@@ -21,10 +21,10 @@
 </div>
 <script type="module">
 import {micromark} from 'micromark'
-import {warning, warningHtml, caution, cautionHtml, alert, alertHtml} from '../index.js'
+import {warning, warningHtml, caution, cautionHtml, important, importantHtml, tip, tipHtml, note, noteHtml} from '../index.js'
 
-const extensions = [warning(), caution(), alert()]
-const htmlExtensions = [warningHtml(), cautionHtml(), alertHtml()]
+const extensions = [warning(), caution(), important(), tip(), note()]
+const htmlExtensions = [warningHtml(), cautionHtml(), importantHtml(), tipHtml(), noteHtml()]
 
 const input = document.getElementById('input')
 const output = document.getElementById('output')
@@ -48,8 +48,16 @@ input.value = [
   'این یک احتیاط است.',
   '...',
   '',
-  '... اخطار',
-  'این یک اخطار است.',
+  '... مهم',
+  'این یک نکته مهم است.',
+  '...',
+  '',
+  '... راهنما',
+  'این یک راهنما است.',
+  '...',
+  '',
+  '... نکته',
+  'این یک نکته است.',
   '...'
 ].join('\n')
 
