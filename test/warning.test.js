@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import {micromark} from 'micromark'
 import {warning, warningHtml} from '../extensions/warning/index.js'
 import {caution, cautionHtml} from '../extensions/caution/index.js'
-import {alert, alertHtml} from '../extensions/alert/index.js'
+import {important, importantHtml} from '../extensions/important/index.js'
 
 /** @type {import('micromark-util-types').Options} */
 const options = {
@@ -191,18 +191,18 @@ test('without the extension, standard markdown behavior is preserved', () => {
   )
 })
 
-test('coexists with caution and alert without interference', () => {
+test('coexists with caution and important without interference', () => {
   const html = micromark(
-    '... هشدار\nالف\n...\n\n... احتیاط\nب\n...\n\n... اخطار\nپ\n...\n',
+    '... هشدار\nالف\n...\n\n... احتیاط\nب\n...\n\n... مهم\nپ\n...\n',
     {
-      extensions: [warning(), caution(), alert()],
-      htmlExtensions: [warningHtml(), cautionHtml(), alertHtml()]
+      extensions: [warning(), caution(), important()],
+      htmlExtensions: [warningHtml(), cautionHtml(), importantHtml()]
     }
   )
   assert.equal(
     html,
     '<div class="parsneshan-warning">\n<p>الف</p>\n</div>\n' +
       '<div class="parsneshan-caution">\n<p>ب</p>\n</div>\n' +
-      '<div class="parsneshan-alert">\n<p>پ</p>\n</div>\n'
+      '<div class="parsneshan-important">\n<p>پ</p>\n</div>\n'
   )
 })

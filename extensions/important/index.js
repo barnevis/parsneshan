@@ -1,27 +1,27 @@
 import {createAdmonition} from '../shared/admonition.js'
 
 const admonition = createAdmonition({
-  className: 'parsneshan-alert',
-  label: 'اخطار',
-  typeName: 'parsneshanAlert'
+  className: 'parsneshan-important',
+  label: 'مهم',
+  typeName: 'parsneshanImportant'
 })
 
 /**
- * Syntax extension of `alert`.
+ * Syntax extension of `important`.
  *
  * @returns {import('micromark-util-types').Extension}
  *   Syntax extension.
  */
-export function alert() {
+export function important() {
   return admonition.syntax()
 }
 
 /**
- * HTML extension of `alert`.
+ * HTML extension of `important`.
  *
  * @returns {import('micromark-util-types').HtmlExtension}
  *   HTML extension.
  */
-export function alertHtml() {
+export function importantHtml() {
   return admonition.html()
 }

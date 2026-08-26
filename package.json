@@ -7,7 +7,7 @@
     ".": "./index.js",
     "./extensions/warning": "./extensions/warning/index.js",
     "./extensions/caution": "./extensions/caution/index.js",
-    "./extensions/alert": "./extensions/alert/index.js"
+    "./extensions/important": "./extensions/important/index.js"
   },
   "scripts": {
     "test": "node --test \"test/**/*.test.js\"",
