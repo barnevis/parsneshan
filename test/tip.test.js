@@ -5,6 +5,7 @@ import {tip, tipHtml} from '../extensions/tip/index.js'
 import {warning, warningHtml} from '../extensions/warning/index.js'
 import {caution, cautionHtml} from '../extensions/caution/index.js'
 import {important, importantHtml} from '../extensions/important/index.js'
+import {note, noteHtml} from '../extensions/note/index.js'
 
 /** @type {import('micromark-util-types').Options} */
 const options = {
@@ -185,12 +186,12 @@ test('without the extension, standard markdown behavior is preserved', () => {
   )
 })
 
-test('coexists with warning, caution and important without interference', () => {
+test('coexists with warning, caution, important and note without interference', () => {
   const html = micromark(
-    '... هشدار\nالف\n...\n\n... احتیاط\nب\n...\n\n... مهم\nج\n...\n\n... راهنما\nد\n...\n',
+    '... هشدار\nالف\n...\n\n... احتیاط\nب\n...\n\n... مهم\nج\n...\n\n... راهنما\nد\n...\n\n... نکته\nه\n...\n',
     {
-      extensions: [warning(), caution(), important(), tip()],
-      htmlExtensions: [warningHtml(), cautionHtml(), importantHtml(), tipHtml()]
+      extensions: [warning(), caution(), important(), tip(), note()],
+      htmlExtensions: [warningHtml(), cautionHtml(), importantHtml(), tipHtml(), noteHtml()]
     }
   )
   assert.equal(
@@ -198,6 +199,7 @@ test('coexists with warning, caution and important without interference', () => 
     '<div class="parsneshan-warning">\n<p>الف</p>\n</div>\n' +
       '<div class="parsneshan-caution">\n<p>ب</p>\n</div>\n' +
       '<div class="parsneshan-important">\n<p>ج</p>\n</div>\n' +
-      '<div class="parsneshan-tip">\n<p>د</p>\n</div>\n'
+      '<div class="parsneshan-tip">\n<p>د</p>\n</div>\n' +
+      '<div class="parsneshan-note">\n<p>ه</p>\n</div>\n'
   )
 })

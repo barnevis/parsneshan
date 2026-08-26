@@ -8,7 +8,8 @@
     "./extensions/warning": "./extensions/warning/index.js",
     "./extensions/caution": "./extensions/caution/index.js",
     "./extensions/important": "./extensions/important/index.js",
-    "./extensions/tip": "./extensions/tip/index.js"
+    "./extensions/tip": "./extensions/tip/index.js",
+    "./extensions/note": "./extensions/note/index.js"
   },
   "scripts": {
     "test": "node --test \"test/**/*.test.js\"",
