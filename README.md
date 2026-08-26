@@ -10,7 +10,9 @@
 |---|---|---|
 | هشدار | `... هشدار` … `...` | بلوک محصورکننده با محتوای Markdown کامل |
 | احتیاط | `... احتیاط` … `...` | مانند هشدار با معنای متفاوت |
-| اخطار | `... اخطار` … `...` | مانند هشدار با معنای متفاوت |
+| مهم | `... مهم` … `...` | مانند هشدار با معنای متفاوت |
+| راهنما | `... راهنما` … `...` | بلوک راهنمای کاربر |
+| نکته | `... نکته` … `...` | بلوک نکته تکمیلی |
 
 جزئیات syntax در [`docs/syntax.md`](docs/syntax.md) آمده است.
 
@@ -18,11 +20,11 @@
 
 ```js
 import {micromark} from 'micromark'
-import {warning, warningHtml, caution, cautionHtml, alert, alertHtml} from 'parsneshan'
+import {warning, warningHtml, caution, cautionHtml, important, importantHtml, tip, tipHtml, note, noteHtml} from 'parsneshan'
 
 const html = micromark('... هشدار\nمتن **مهم**\n...\n', {
-  extensions: [warning(), caution(), alert()],
-  htmlExtensions: [warningHtml(), cautionHtml(), alertHtml()]
+  extensions: [warning(), caution(), important(), tip(), note()],
+  htmlExtensions: [warningHtml(), cautionHtml(), importantHtml(), tipHtml(), noteHtml()]
 })
 ```
 
@@ -40,10 +42,10 @@ const html = micromark('... هشدار\nمتن **مهم**\n...\n', {
 
 | تابع | خروجی |
 |---|---|
-| `warning()` / `caution()` / `alert()` | Syntax extension |
-| `warningHtml()` / `cautionHtml()` / `alertHtml()` | HTML extension (`<div class="parsneshan-*">`) |
+| `warning()` / `caution()` / `important()` / `tip()` / `note()` | Syntax extension |
+| `warningHtml()` / `cautionHtml()` / `importantHtml()` / `tipHtml()` / `noteHtml()` | HTML extension (`<div class="parsneshan-*">`) |
 
-افزونه‌ها همچنین از مسیرهای جداگانه در دسترس‌اند: `parsneshan/extensions/warning`، `parsneshan/extensions/caution` و `parsneshan/extensions/alert`.
+افزونه‌ها همچنین از مسیرهای جداگانه در دسترس‌اند: `parsneshan/extensions/warning`، `parsneshan/extensions/caution`، `parsneshan/extensions/important`، `parsneshan/extensions/tip` و `parsneshan/extensions/note`.
 
 ## آزمایشگاه
 

@@ -4,7 +4,7 @@
 
 ## الگوی مشترک بلوک‌ها
 
-سه قابلیت فعلی از یک الگوی مشترک استفاده می‌کنند:
+پنج قابلیت فعلی از یک الگوی مشترک استفاده می‌کنند:
 
 ```markdown
 ... نوع
@@ -22,7 +22,9 @@
 |---|---|
 | `... هشدار` | `<div class="parsneshan-warning">` |
 | `... احتیاط` | `<div class="parsneshan-caution">` |
-| `... اخطار` | `<div class="parsneshan-alert">` |
+| `... مهم` | `<div class="parsneshan-important">` |
+| `... راهنما` | `<div class="parsneshan-tip">` |
+| `... نکته` | `<div class="parsneshan-note">` |
 
 هر نوع فقط با واژهٔ خودش ایجاد می‌شود؛ فعال‌سازی هم‌زمان چند افزونه بدون تداخل است.
 
