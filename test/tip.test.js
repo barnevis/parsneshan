@@ -144,6 +144,13 @@ test('tip interrupts a paragraph', () => {
   )
 })
 
+test('tip inside list item preserves paragraph (regression)', () => {
+  assert.equal(
+    render('- یک\n  ... راهنما\n  متن\n  ...\n'),
+    '<ul>\n<li>یک<div class="parsneshan-tip">\n<p>متن</p>\n</div>\n</li>\n</ul>\n'
+  )
+})
+
 test('tip inside a block quote', () => {
   assert.equal(
     render('> ... راهنما\n> متن\n> ...\n'),

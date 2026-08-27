@@ -144,6 +144,13 @@ test('note interrupts a paragraph', () => {
   )
 })
 
+test('note inside list item preserves paragraph (regression)', () => {
+  assert.equal(
+    render('- یک\n  ... نکته\n  متن\n  ...\n'),
+    '<ul>\n<li>یک<div class="parsneshan-note">\n<p>متن</p>\n</div>\n</li>\n</ul>\n'
+  )
+})
+
 test('note inside a block quote', () => {
   assert.equal(
     render('> ... نکته\n> متن\n> ...\n'),

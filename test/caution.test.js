@@ -144,6 +144,13 @@ test('caution interrupts a paragraph', () => {
   )
 })
 
+test('caution inside list item preserves paragraph (regression)', () => {
+  assert.equal(
+    render('- یک\n  ... احتیاط\n  متن\n  ...\n'),
+    '<ul>\n<li>یک<div class="parsneshan-caution">\n<p>متن</p>\n</div>\n</li>\n</ul>\n'
+  )
+})
+
 test('caution inside a block quote', () => {
   assert.equal(
     render('> ... احتیاط\n> متن\n> ...\n'),

@@ -144,6 +144,13 @@ test('important interrupts a paragraph', () => {
   )
 })
 
+test('important inside list item preserves paragraph (regression)', () => {
+  assert.equal(
+    render('- یک\n  ... مهم\n  متن\n  ...\n'),
+    '<ul>\n<li>یک<div class="parsneshan-important">\n<p>متن</p>\n</div>\n</li>\n</ul>\n'
+  )
+})
+
 test('important inside a block quote', () => {
   assert.equal(
     render('> ... مهم\n> متن\n> ...\n'),
