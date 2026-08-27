@@ -43,7 +43,7 @@ const html = micromark('... هشدار\nمتن **مهم**\n...\n', {
 | تابع | خروجی |
 |---|---|
 | `warning()` / `caution()` / `important()` / `tip()` / `note()` | Syntax extension |
-| `warningHtml()` / `cautionHtml()` / `importantHtml()` / `tipHtml()` / `noteHtml()` | HTML extension (`<div class="parsneshan-*">` یا `<ol>`) |
+| `warningHtml()` / `cautionHtml()` / `importantHtml()` / `tipHtml()` / `noteHtml()` | HTML extension (`<div class="parsneshan-*">`) |
 
 افزونه‌ها همچنین از مسیرهای جداگانه در دسترس‌اند: `parsneshan/extensions/warning`، `parsneshan/extensions/caution`، `parsneshan/extensions/important`، `parsneshan/extensions/tip` و `parsneshan/extensions/note`.
 

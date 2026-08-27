@@ -17,7 +17,7 @@
 
 ## الگوی پیاده‌سازی بلوک‌های محصورکننده
 
-بلوک‌های فعلی (`هشدار`، `احتیاط`، `اخطار`) یک الگوی مشترک دارند: fence آغازین بدون پیشوند خطی و محتوایی که باید به‌صورت Markdown کامل پردازش شود.
+بلوک‌های فعلی (`هشدار`، `احتیاط`، `مهم`، ‍`راهنما` و `نکته`) یک الگوی مشترک دارند: fence آغازین بدون پیشوند خطی و محتوایی که باید به‌صورت Markdown کامل پردازش شود.
 
 برای این الگو، container معمولِ micromark (مانند blockquote که prefix خطی دارد) مناسب نیست: خطوط محتوا بدون marker هستند و سازوکار lazy continuation کانتینرها مرز بلوک را خراب می‌کند. الگوی به‌کاررفته — همسان با `micromark-extension-directive` — این است:
 
@@ -37,7 +37,9 @@ extensions/
 │   └── admonition.js        factory مشترک createAdmonition
 ├── warning/index.js         config + API عمومی warning
 ├── caution/index.js         config + API عمومی caution
-└── alert/index.js           config + API عمومی alert
+├── important/index.js       config + API عمومی important
+├── tip/index.js             config + API عمومی tip
+└── note/index.js            config + API عمومی note
 test/                        آزمون‌ها با node:test (*.test.js)
 docs/                        مستندات
 playground/                  آزمایشگاه زنده
@@ -45,7 +47,7 @@ playground/                  آزمایشگاه زنده
 
 ### factory مشترک
 
-سه افزونهٔ فعلی ساختار یکسانی دارند؛ منطق tokenizer آن‌ها یک‌بار در `createAdmonition({typeName, label, className})` پیاده‌ شده است. هر افزونه فقط سه مقدار اختصاصی خود را می‌دهد و دو تابع `syntax()` و `html()` را دریافت می‌کند. نام توکن‌های داخلی از `typeName` مشتق می‌شود (`parsneshanWarningFence`، ...).
+پنج افزونهٔ فعلی ساختار یکسانی دارند؛ منطق tokenizer آن‌ها یک‌بار در `createAdmonition({typeName, label, className})` پیاده‌ شده است. هر افزونه فقط سه مقدار اختصاصی خود را می‌دهد و دو تابع `syntax()` و `html()` را دریافت می‌کند. نام توکن‌های داخلی از `typeName` مشتق می‌شوند (`parsneshanWarningFence`، ...).
 
 افزودن قابلیت هم‌ساختار جدید = افزودن یک `extensions/<name>/index.js` چندخطی. قابلیت با ساختار متفاوت باید tokenizer مستقل خود را داشته باشد.
 
