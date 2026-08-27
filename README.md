@@ -13,7 +13,6 @@
 | مهم | `... مهم` … `...` | مانند هشدار با معنای متفاوت |
 | راهنما | `... راهنما` … `...` | بلوک راهنمای کاربر |
 | نکته | `... نکته` … `...` | بلوک نکته تکمیلی |
-| لیست مرتب فارسی | `۱. مورد` … | لیست مرتب با ارقام فارسی |
 
 جزئیات syntax در [`docs/syntax.md`](docs/syntax.md) آمده است.
 
@@ -21,11 +20,11 @@
 
 ```js
 import {micromark} from 'micromark'
-import {warning, warningHtml, caution, cautionHtml, important, importantHtml, tip, tipHtml, note, noteHtml, persianOrderedList, persianOrderedListHtml} from 'parsneshan'
+import {warning, warningHtml, caution, cautionHtml, important, importantHtml, tip, tipHtml, note, noteHtml} from 'parsneshan'
 
 const html = micromark('... هشدار\nمتن **مهم**\n...\n', {
-  extensions: [warning(), caution(), important(), tip(), note(), persianOrderedList()],
-  htmlExtensions: [warningHtml(), cautionHtml(), importantHtml(), tipHtml(), noteHtml(), persianOrderedListHtml()]
+  extensions: [warning(), caution(), important(), tip(), note()],
+  htmlExtensions: [warningHtml(), cautionHtml(), importantHtml(), tipHtml(), noteHtml()]
 })
 ```
 
@@ -43,10 +42,10 @@ const html = micromark('... هشدار\nمتن **مهم**\n...\n', {
 
 | تابع | خروجی |
 |---|---|
-| `warning()` / `caution()` / `important()` / `tip()` / `note()` / `persianOrderedList()` | Syntax extension |
-| `warningHtml()` / `cautionHtml()` / `importantHtml()` / `tipHtml()` / `noteHtml()` / `persianOrderedListHtml()` | HTML extension (`<div class="parsneshan-*">` یا `<ol>`) |
+| `warning()` / `caution()` / `important()` / `tip()` / `note()` | Syntax extension |
+| `warningHtml()` / `cautionHtml()` / `importantHtml()` / `tipHtml()` / `noteHtml()` | HTML extension (`<div class="parsneshan-*">` یا `<ol>`) |
 
-افزونه‌ها همچنین از مسیرهای جداگانه در دسترس‌اند: `parsneshan/extensions/warning`، `parsneshan/extensions/caution`، `parsneshan/extensions/important`، `parsneshan/extensions/tip`، `parsneshan/extensions/note` و `parsneshan/extensions/persian-ordered-list`.
+افزونه‌ها همچنین از مسیرهای جداگانه در دسترس‌اند: `parsneshan/extensions/warning`، `parsneshan/extensions/caution`، `parsneshan/extensions/important`، `parsneshan/extensions/tip` و `parsneshan/extensions/note`.
 
 ## آزمایشگاه
 
