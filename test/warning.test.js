@@ -151,6 +151,13 @@ test('warning interrupts a paragraph', () => {
   )
 })
 
+test('warning inside list item preserves paragraph (regression)', () => {
+  assert.equal(
+    render('- یک\n  ... هشدار\n  متن\n  ...\n'),
+    '<ul>\n<li>یک<div class="parsneshan-warning">\n<p>متن</p>\n</div>\n</li>\n</ul>\n'
+  )
+})
+
 test('warning inside a block quote', () => {
   assert.equal(
     render('> ... هشدار\n> متن\n> ...\n'),

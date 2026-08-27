@@ -381,11 +381,16 @@ export function createAdmonition({className, label, typeName}) {
     return {
       enter: {
         [typeName]() {
+          const tightStack = this.getData('tightStack')
+          tightStack.push(false)
           this.tag('<div class="' + className + '">')
         }
       },
       exit: {
         [typeName]() {
+          const tightStack = this.getData('tightStack')
+          tightStack.pop()
+          this.lineEndingIfNeeded()
           this.tag('</div>')
         }
       }
