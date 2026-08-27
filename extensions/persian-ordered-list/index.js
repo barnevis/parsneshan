@@ -10,7 +10,7 @@
 
 import {ok as assert} from 'devlop'
 import {factorySpace} from 'micromark-factory-space'
-import {asciiDigit, markdownLineEnding, markdownSpace} from 'micromark-util-character'
+import {markdownLineEnding, markdownSpace} from 'micromark-util-character'
 import {codes, constants, types} from 'micromark-util-symbol'
 import {blankLine} from 'micromark-core-commonmark'
 
@@ -39,63 +39,6 @@ function digitToAscii(code) {
     return codes.digit0 + (code - 0x06F0)
   }
   return -1
-}
-
-/**
- * @this {TokenizeContext}
- * @type {Tokenizer}
- */
-function tokenizeIndent(effects, ok, nok) {
-  const self = this
-  assert(self.containerState, 'expected state')
-  assert(typeof self.containerState.size === 'number', 'expected size')
-  return factorySpace(
-    effects,
-    afterPrefix,
-    types.listItemIndent,
-    self.containerState.size + 1
-  )
-
-  /** @type {State} */
-  function afterPrefix(code) {
-    assert(self.containerState, 'expected state')
-    const tail = self.events[self.events.length - 1]
-    return tail &&
-      tail[1].type === types.listItemIndent &&
-      self.sliceSerialize(tail[1], true).length === self.containerState.size
-      ? ok(code)
-      : nok(code)
-  }
-}
-
-/** @type {Construct} */
-const indentConstruct = {partial: true, tokenize: tokenizeIndent}
-
-/** @type {Construct} */
-const listItemPrefixWhitespaceConstruct = {partial: true, tokenize: tokenizeListItemPrefixWhitespace}
-
-/**
- * @this {TokenizeContext}
- * @type {Tokenizer}
- */
-function tokenizeListItemPrefixWhitespace(effects, ok, nok) {
-  const self = this
-  return factorySpace(
-    effects,
-    afterPrefix,
-    types.listItemPrefixWhitespace,
-    constants.tabSize + 1
-  )
-
-  /** @type {State} */
-  function afterPrefix(code) {
-    const tail = self.events[self.events.length - 1]
-    return !markdownSpace(code) &&
-      tail &&
-      tail[1].type === 'listItemPrefixWhitespace'
-      ? ok(code)
-      : nok(code)
-  }
 }
 
 /** @type {Construct} */
@@ -165,20 +108,6 @@ function tokenizePersianListStart(effects, ok, nok) {
     }
 
     return nok(code)
-  }
-
-  function digitToAscii(code) {
-    if (code >= codes.digit0 && code <= codes.digit9) {
-      return code
-    }
-    if (code >= 0x06F0 && code <= 0x06F9) {
-      return codes.digit0 + (code - 0x06F0)
-    }
-    return -1
-  }
-
-  function isAnyDigit(code) {
-    return (code >= codes.digit0 && code <= codes.digit9) || (code >= 0x06F0 && code <= 0x06F9)
   }
 
   /** @type {State} */
@@ -285,6 +214,63 @@ function tokenizePersianListEnd(effects) {
 }
 
 /**
+ * @this {TokenizeContext}
+ * @type {Tokenizer}
+ */
+function tokenizeIndent(effects, ok, nok) {
+  const self = this
+  assert(self.containerState, 'expected state')
+  assert(typeof self.containerState.size === 'number', 'expected size')
+  return factorySpace(
+    effects,
+    afterPrefix,
+    types.listItemIndent,
+    self.containerState.size + 1
+  )
+
+  /** @type {State} */
+  function afterPrefix(code) {
+    assert(self.containerState, 'expected state')
+    const tail = self.events[self.events.length - 1]
+    return tail &&
+      tail[1].type === types.listItemIndent &&
+      self.sliceSerialize(tail[1], true).length === self.containerState.size
+      ? ok(code)
+      : nok(code)
+  }
+}
+
+/** @type {Construct} */
+const indentConstruct = {partial: true, tokenize: tokenizeIndent}
+
+/** @type {Construct} */
+const listItemPrefixWhitespaceConstruct = {partial: true, tokenize: tokenizeListItemPrefixWhitespace}
+
+/**
+ * @this {TokenizeContext}
+ * @type {Tokenizer}
+ */
+function tokenizeListItemPrefixWhitespace(effects, ok, nok) {
+  const self = this
+  return factorySpace(
+    effects,
+    afterPrefix,
+    types.listItemPrefixWhitespace,
+    constants.tabSize + 1
+  )
+
+  /** @type {State} */
+  function afterPrefix(code) {
+    const tail = self.events[self.events.length - 1]
+    return !markdownSpace(code) &&
+      tail &&
+      tail[1].type === 'listItemPrefixWhitespace'
+      ? ok(code)
+      : nok(code)
+  }
+}
+
+/**
  * Syntax extension for Persian ordered list
  * Registers for Persian digits (۰-۹) at document level
  * @returns {Extension}
@@ -311,15 +297,6 @@ export function persianOrderedList() {
  * @returns {import('micromark-util-types').HtmlExtension}
  */
 export function persianOrderedListHtml() {
-  // Helper to close list item
-  function closeListItem(context) {
-    if (context.getData('lastWasTag') && !context.getData('slurpAllLineEndings')) {
-      context.lineEndingIfNeeded()
-    }
-    context.tag('</li>')
-    context.setData('slurpAllLineEndings')
-  }
-
   return {
     enter: {
       listItemValue(token) {
