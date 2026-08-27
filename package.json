@@ -9,7 +9,8 @@
     "./extensions/caution": "./extensions/caution/index.js",
     "./extensions/important": "./extensions/important/index.js",
     "./extensions/tip": "./extensions/tip/index.js",
-    "./extensions/note": "./extensions/note/index.js"
+    "./extensions/note": "./extensions/note/index.js",
+    "./extensions/persian-ordered-list": "./extensions/persian-ordered-list/index.js"
   },
   "scripts": {
     "test": "node --test \"test/**/*.test.js\"",
