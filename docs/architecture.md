@@ -39,7 +39,8 @@ extensions/
 ├── caution/index.js         config + API عمومی caution
 ├── important/index.js       config + API عمومی important
 ├── tip/index.js             config + API عمومی tip
-└── note/index.js            config + API عمومی note
+├── note/index.js            config + API عمومی note
+├── persian-list/index.js    لیست عددی فارسی (construct مستقل)
 test/                        آزمون‌ها با node:test (*.test.js)
 docs/                        مستندات
 playground/                  آزمایشگاه زنده
@@ -50,6 +51,10 @@ playground/                  آزمایشگاه زنده
 پنج افزونهٔ فعلی ساختار یکسانی دارند؛ منطق tokenizer آن‌ها یک‌بار در `createAdmonition({typeName, label, className})` پیاده‌ شده است. هر افزونه فقط سه مقدار اختصاصی خود را می‌دهد و دو تابع `syntax()` و `html()` را دریافت می‌کند. نام توکن‌های داخلی از `typeName` مشتق می‌شوند (`parsneshanWarningFence`، ...).
 
 افزودن قابلیت هم‌ساختار جدید = افزودن یک `extensions/<name>/index.js` چندخطی. قابلیت با ساختار متفاوت باید tokenizer مستقل خود را داشته باشد.
+
+### قابلیت‌های ساختار متفاوت
+
+* **`persian-list` (لیست عددی فارسی):** container construct مستقل در `extensions/persian-list/index.js`، الگودهٔوفادار به `list` هستهٔ micromark. دلیل عدم composition: construct هسته، predicate ارقام (`asciiDigit`) و ارجاع به خود در continuation را از طریق closure قفل کرده و نقطهٔ تزریق ندارد؛ به‌علاوه ثبت extension در map `document` merge می‌شود نه replace، پس construct مستقل زیر code pointهای ارقام فارسی (U+06F0 تا U+06F9) بدون تداخل با لیست‌های ASCII ثبت می‌شود. continuation آیتم‌های بعدی همان construct فارسی را attempt می‌کند (نه `list` هسته)، بنابراین لیست‌های فارسی و ASCII هرگز با هم ادغام نمی‌شوند. توکن‌های استاندارد لیست (`listOrdered`، `listItemPrefix`، ...) با `_container: true` تولید می‌شوند تا تشخیص tight/loose و ساختار `<ol>`/`<li>` توسط کامپایلر پیش‌فرض انجام شود؛ تنها هندلر `enter.listItemValue` در HTML extension بازنویسی شده چون `Number.parseInt` ارقام فارسی را نمی‌فهمد (برای `start` attribute دستی پارس می‌شود؛ ASCII هم برای سازگاری کامل نگه داشته شده است).
 
 ### گام‌های افزودن افزونهٔ جدید
 
