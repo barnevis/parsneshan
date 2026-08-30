@@ -1,12 +1,16 @@
 # پارس‌نشان
 
+[![هوش‌مصنوعی](https://img.shields.io/badge/Built%20with-AI-blueviolet)](#)
+[![نسخه](https://img.shields.io/badge/version-0.1.0-blue.svg)](package.json)
+[![مجوز](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 کتابخانه‌ای از افزونه‌های Markdown برای محتوای فارسی، ساخته‌شده بر پایهٔ [micromark](https://github.com/micromark/micromark).
 
-پارس‌نشان parser مستقل نیست؛ پردازش Markdown استاندارد بر عهدهٔ `micromark` است و قابلیت‌های فارسی به‌صورت افزونهٔ استاندارد micromark به آن اضافه می‌شوند. بنابراین رفتار Markdown استاندارد حفظ می‌شود.
+پارس‌نشان parser مستقل نیست؛ پردازش Markdown استاندارد بر عهدهٔ `micromark` است و ویژگی‌های فارسی به‌صورت افزونهٔ استاندارد micromark به آن اضافه می‌شوند. بنابراین رفتار Markdown استاندارد حفظ می‌شود.
 
-## قابلیت‌ها
+## ویژگی‌ها
 
-| قابلیت | syntax | توضیح |
+| ویژگی | syntax | توضیح |
 |---|---|---|
 | هشدار | `... هشدار` … `...` | بلوک محصورکننده با محتوای Markdown کامل |
 | احتیاط | `... احتیاط` … `...` | مانند هشدار با معنای متفاوت |
