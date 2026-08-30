@@ -293,6 +293,11 @@ function tokenizePoem(effects, ok, nok) {
       // Five or more spaces followed by text: a one-line verse. Split off the
       // second hemistich here.
       if (verseForm === 'two-line') return nok(code)
+
+      // A second separator means three hemistichs on one line: invalid, no
+      // matter what form the block is in.
+      if (hemistichsInVerse > 1) return nok(code)
+
       verseForm = 'one-line'
       effects.exit(hemistichType)
       hemistichsInVerse++
