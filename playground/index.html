@@ -21,10 +21,10 @@
 </div>
 <script type="module">
 import {micromark} from 'micromark'
-import {warning, warningHtml, caution, cautionHtml, important, importantHtml, tip, tipHtml, note, noteHtml, persianListExtension, persianListHtml} from '../index.js'
+import {warning, warningHtml, caution, cautionHtml, important, importantHtml, tip, tipHtml, note, noteHtml, persianListExtension, persianListHtml, persianPoem, persianPoemHtml} from '../index.js'
 
-const extensions = [warning(), caution(), important(), tip(), note(), persianListExtension()]
-const htmlExtensions = [warningHtml(), cautionHtml(), importantHtml(), tipHtml(), noteHtml(), persianListHtml()]
+const extensions = [warning(), caution(), important(), tip(), note(), persianListExtension(), persianPoem()]
+const htmlExtensions = [warningHtml(), cautionHtml(), importantHtml(), tipHtml(), noteHtml(), persianListHtml(), persianPoemHtml()]
 
 const input = document.getElementById('input')
 const output = document.getElementById('output')
@@ -42,6 +42,12 @@ input.value = [
   'این یک **هشدار** است.',
   '- مورد یک',
   '- مورد دو',
+  '...',
+  '',
+  '...شعر',
+  'تو نیکی می‌کن و در دجله انداز     که ایزد در بیابانت دهد باز',
+  '',
+  'به جهان خرم از آنم که جهان خرم از اوست     عاشقم بر همه عالم که همه عالم از اوست',
   '...',
   '',
   '۱. مورد فارسی یک',

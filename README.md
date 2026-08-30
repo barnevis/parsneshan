@@ -14,6 +14,7 @@
 | راهنما | `... راهنما` … `...` | بلوک راهنمای کاربر |
 | نکته | `... نکته` … `...` | بلوک نکته تکمیلی |
 | لیست فارسی | `۱. الف` | لیست مرتب با ارقام فارسی (`start` از عدد اول) |
+| شعر فارسی | `...شعر` … `...` | بلوک شعر با ساختار بیت/مصرع (بدون پردازش Markdown درون بلوک) |
 
 جزئیات syntax در [`docs/syntax.md`](docs/syntax.md) آمده است.
 
@@ -47,8 +48,10 @@ const html = micromark('... هشدار\nمتن **مهم**\n...\n', {
 | `warningHtml()` / `cautionHtml()` / `importantHtml()` / `tipHtml()` / `noteHtml()` | HTML extension (`<div class="parsneshan-*">`) |
 | `persianListExtension()` | Syntax extension (لیست عددی فارسی) |
 | `persianListHtml()` | HTML extension (`start` از ارقام فارسی) |
+| `persianPoem()` | Syntax extension (شعر فارسی) |
+| `persianPoemHtml()` | HTML extension (`div` بیت / `span` مصرع) |
 
-افزونه‌ها همچنین از مسیرهای جداگانه در دسترس‌اند: `parsneshan/extensions/warning`، `parsneshan/extensions/caution`، `parsneshan/extensions/important`، `parsneshan/extensions/tip`، `parsneshan/extensions/note` و `parsneshan/extensions/persian-list`.
+افزونه‌ها همچنین از مسیرهای جداگانه در دسترس‌اند: `parsneshan/extensions/warning`، `parsneshan/extensions/caution`، `parsneshan/extensions/important`، `parsneshan/extensions/tip`، `parsneshan/extensions/note`، `parsneshan/extensions/persian-list` و `parsneshan/extensions/persian-poem`.
 
 ## آزمایشگاه
 

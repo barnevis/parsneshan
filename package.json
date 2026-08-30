@@ -10,7 +10,8 @@
     "./extensions/important": "./extensions/important/index.js",
     "./extensions/tip": "./extensions/tip/index.js",
     "./extensions/note": "./extensions/note/index.js",
-    "./extensions/persian-list": "./extensions/persian-list/index.js"
+    "./extensions/persian-list": "./extensions/persian-list/index.js",
+    "./extensions/persian-poem": "./extensions/persian-poem/index.js"
   },
   "scripts": {
     "test": "node --test \"test/**/*.test.js\"",
