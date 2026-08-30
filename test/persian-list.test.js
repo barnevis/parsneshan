@@ -2,6 +2,7 @@ import {test} from 'node:test'
 import assert from 'node:assert/strict'
 import {micromark} from 'micromark'
 import {warning, warningHtml} from '../extensions/warning/index.js'
+import {note, noteHtml} from '../extensions/note/index.js'
 import {
   persianListExtension,
   persianListHtml
@@ -232,5 +233,15 @@ test('coexists with the warning admonition', () => {
       htmlExtensions: [persianListHtml(), warningHtml()]
     }),
     '<div class="parsneshan-warning">\n<ol>\n<li>الف</li>\n<li>ب</li>\n</ol>\n</div>\n'
+  )
+})
+
+test('coexists with the note admonition', () => {
+  assert.equal(
+    micromark('... نکته\n۱. الف\n۲. ب\n...\n', {
+      extensions: [persianListExtension(), note()],
+      htmlExtensions: [persianListHtml(), noteHtml()]
+    }),
+    '<div class="parsneshan-note">\n<ol>\n<li>الف</li>\n<li>ب</li>\n</ol>\n</div>\n'
   )
 })
