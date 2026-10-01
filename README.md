@@ -1,7 +1,7 @@
 # پارس‌نشان
 
 [![هوش‌مصنوعی](https://img.shields.io/badge/Built%20with-AI-blueviolet)](#)
-[![نسخه](https://img.shields.io/badge/version-0.1.0-blue.svg)](package.json)
+[![نسخه](https://img.shields.io/badge/version-0.2.0-blue.svg)](package.json)
 [![مجوز](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 کتابخانه‌ای از افزونه‌های Markdown برای محتوای فارسی، ساخته‌شده بر پایهٔ [micromark](https://github.com/micromark/micromark).
@@ -54,8 +54,9 @@ const html = micromark('... هشدار\nمتن **مهم**\n...\n', {
 | `persianListHtml()` | HTML extension (`start` از ارقام فارسی) |
 | `persianPoem()` | Syntax extension (شعر فارسی) |
 | `persianPoemHtml()` | HTML extension (`div` بیت / `span` مصرع) |
+| `persianFootnoteOptions` | گزینه‌های فارسی رندر پاورقی GFM (`label` و `backLabel`، بدون syntax تازه) |
 
-افزونه‌ها همچنین از مسیرهای جداگانه در دسترس‌اند: `parsneshan/extensions/warning`، `parsneshan/extensions/caution`، `parsneshan/extensions/important`، `parsneshan/extensions/tip`، `parsneshan/extensions/note`، `parsneshan/extensions/persian-list` و `parsneshan/extensions/persian-poem`.
+افزونه‌ها همچنین از مسیرهای جداگانه در دسترس‌اند: `parsneshan/extensions/warning`، `parsneshan/extensions/caution`، `parsneshan/extensions/important`، `parsneshan/extensions/tip`، `parsneshan/extensions/note`، `parsneshan/extensions/persian-list`، `parsneshan/extensions/persian-poem` و `parsneshan/extensions/persian-footnote`.
 
 ## آزمایشگاه
 

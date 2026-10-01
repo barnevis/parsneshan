@@ -1,6 +1,6 @@
 {
   "name": "parsneshan",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Markdown library with extensions for Persian, built on micromark",
   "type": "module",
   "exports": {
@@ -11,7 +11,8 @@
     "./extensions/tip": "./extensions/tip/index.js",
     "./extensions/note": "./extensions/note/index.js",
     "./extensions/persian-list": "./extensions/persian-list/index.js",
-    "./extensions/persian-poem": "./extensions/persian-poem/index.js"
+    "./extensions/persian-poem": "./extensions/persian-poem/index.js",
+    "./extensions/persian-footnote": "./extensions/persian-footnote/index.js"
   },
   "scripts": {
     "test": "node --test \"test/**/*.test.js\"",

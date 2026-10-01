@@ -2,7 +2,13 @@
 
 این سند بر اساس [Keep a Changelog](https://keepachangelog.com/) تنظیم شده و نسخه‌گذاری از [Semantic Versioning](https://semver.org/) پیروی می‌کند.
 
-## Unreleased
+## 0.2.0 - 1405-07-09
+
+### افزوده شده
+
+- گزینه‌های فارسی رندر پاورقی GFM (`persianFootnoteOptions` با `label` و `backLabel`، از مسیر `parsneshan/extensions/persian-footnote`)؛ syntax تازه‌ای اضافه نشده است
+
+## 0.1.0 - 1405-06-08
 
 ### افزوده شده
 

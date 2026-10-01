@@ -61,6 +61,17 @@
 * خروجی: `<div class="parsneshan-poem">` شامل `<div class="parsneshan-verse">` برای هر بیت و `<span class="parsneshan-hemistich">` برای هر مصرع.
 * جزئیات کامل در [features/persian-poem.md](features/persian-poem.md).
 
+## برچسب فارسی پاورقی GFM
+
+syntax پاورقی (`[^1]` … `[^1]: …`) متعلق به GFM است؛ پارس‌نشان syntax تازه‌ای اضافه نمی‌کند و فقط برچسب‌های فارسی رندر را می‌دهد (`persianFootnoteOptions` با `label` برابر `پاورقی` و `backLabel` برابر `بازگشت به ارجاع N`). برای استفاده، آن را به گزینه‌های `gfmHtml` بدهید:
+
+```js
+import {gfmHtml} from 'micromark-extension-gfm'
+import {persianFootnoteOptions} from 'parsneshan'
+
+micromark('متن[^1]\n\n[^1]: توضیح\n', {htmlExtensions: [gfmHtml(persianFootnoteOptions)]})
+```
+
 ## نمونهٔ کامل
 
 ورودی:
